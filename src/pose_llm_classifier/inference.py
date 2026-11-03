@@ -43,9 +43,17 @@ def build_messages(sample, examples=(), min_confidence=0):
     return messages
 
 
+class InvalidPrediction(ValueError):
+    """Preserve the model output so automatic feedback can diagnose parse failures."""
+
+    def __init__(self, raw_response):
+        super().__init__(f"Model must return exactly one class digit, got {raw_response!r}")
+        self.raw_response = raw_response
+
+
 def parse_prediction(text):
     if not isinstance(text, str) or not re.fullmatch(r"\s*[0-3]\s*", text):
-        raise ValueError(f"Model must return exactly one class digit, got {text!r}")
+        raise InvalidPrediction(text)
     return int(text.strip())
 
 
@@ -93,8 +101,13 @@ class Classifier:
                 json.JSONDecodeError,
             ) as exc:
                 raise RuntimeError(f"Remote inference failed: {type(exc).__name__}") from exc
+        try:
+            prediction = parse_prediction(raw)
+        except InvalidPrediction as exc:
+            exc.messages = messages
+            raise
         return {
-            "prediction": parse_prediction(raw),
+            "prediction": prediction,
             "raw_response": raw,
             "backend": self.backend,
             "model": self.model if self.backend == "remote" else "mock-constant-0",

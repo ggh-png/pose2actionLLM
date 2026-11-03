@@ -14,7 +14,8 @@
 1. [전체 처리 흐름](pipeline.md)에서 CLI 평가와 API 경로를 확인합니다.
 2. [빠른 시작](getting-started.md)으로 모델 없이 실행합니다.
 3. [데이터 형식](data-format.md)과 [시각화](visualization.md)에서 입력 좌표를 확인합니다.
-4. [전처리](preprocessing.md), [평가](evaluation.md), [API](api.md)를 순서대로 연결합니다.
+4. 서버에서는 [자동 실행과 피드백](server-automation.md)으로 전체 과정을 실행합니다.
+5. [전처리](preprocessing.md), [평가](evaluation.md), [API](api.md)를 순서대로 연결합니다.
 
 ## 클래스 정의
 

@@ -166,3 +166,19 @@ mkdocs serve --dev-addr 127.0.0.1:8001
 성공한 실행의 `documentation-html` 아티팩트에서 HTML을 다운로드할 수 있습니다.
 문서 사이트: <https://ggh-png.github.io/pose2actionLLM/>. main의 문서 변경 시 GitHub Pages로 자동 배포합니다.
 활성화 절차는 [문서 관리 가이드](docs/development.md)에 정리했습니다.
+
+
+## 서버 자동 실행과 피드백
+
+```bash
+# 환경 생성 → 데이터 검증·시각화·전처리·프롬프트 → feedback.md
+bash scripts/run_server.sh --input data/test.jsonl
+
+# 검토 후 GPU 서버에서 모델 준비와 평가까지 한 번에
+bash scripts/run_server.sh --input data/test.jsonl --mode remote \
+  --visualization-reviewed --install-vllm --start-model-server
+```
+
+실행별 `results/runs/` 폴더에 점검·평가·오분류·실패 원인을 저장합니다.
+기존 모델 endpoint 사용, few-shot, 여러 모델 비교도 지원합니다.
+[서버 자동화 가이드](docs/server-automation.md)를 참고하세요.

@@ -1,6 +1,6 @@
 # 개발 상태
 
-로컬 검증: Python 3.12에서 pytest 26개 통과, Ruff 통과. 합성 pixel sample의 원본/정규화 PNG를 열어 확인했고 전처리, CSV feature 추출, mock benchmark CLI를 실행했습니다. FastAPI 테스트에서 외부 라이브러리의 httpx 사용 중단 예정 경고 1건이 있으나 테스트는 통과합니다. 실제 원격 모델 연결은 검증하지 않았습니다.
+로컬 검증: Python 3.12에서 pytest 31개 통과, Ruff 통과. 합성 pixel sample의 원본/정규화 PNG를 열어 확인했고 전처리, CSV feature 추출, mock benchmark CLI를 실행했습니다. FastAPI 테스트에서 외부 라이브러리의 httpx 사용 중단 예정 경고 1건이 있으나 테스트는 통과합니다. 실제 원격 모델 연결은 검증하지 않았습니다.
 
 ## 구현한 범위
 
@@ -35,3 +35,7 @@
 ## 8개 관절 입력으로 변경
 
 좌우 어깨·팔꿈치·골반·무릎만 입력받습니다. 모든 샘플과 합성 100개, 시각화, feature, 프롬프트를 이 계약으로 수정했습니다. HAND_UP은 팔꿈치 높이를 사용하는 대리 기준이며 실제 손 높이를 판별하지 않습니다. `visualization-requirements.md`는 최초 첨부 원문을 보존한 문서로, 손목/발목 관련 내용은 현재 입력 계약보다 이전 요구사항입니다.
+
+## 서버 자동 실행 스크립트
+
+`run_server.sh`가 환경을 준비하고 `run_pipeline.py`가 점검·시각화·프롬프트·단일 추론·zero-shot/few-shot 평가·피드백을 연결합니다. 모델별 vLLM 시작/종료 옵션과 기존 endpoint 사용을 지원합니다. 로컬 mock 100개 실행, 셸 래퍼 실행, 가짜 HTTP endpoint 및 실패 응답 보존을 검증했습니다. 실제 vLLM 설치·GPU 기동은 서버에서 추가 검증해야 합니다.

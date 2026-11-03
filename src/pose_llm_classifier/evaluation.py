@@ -23,7 +23,12 @@ def evaluate(samples, classifier, output_dir, examples=(), save_errors=True, min
             try:
                 result = classifier.predict(sample, examples, min_confidence)
             except (ValueError, RuntimeError) as exc:
-                result = {"prediction": None, "error": str(exc)}
+                result = {
+                    "prediction": None,
+                    "error": str(exc),
+                    "raw_response": getattr(exc, "raw_response", None),
+                    "messages": getattr(exc, "messages", None),
+                }
                 failed += 1
             elapsed = time.perf_counter() - start
             durations.append(elapsed)
