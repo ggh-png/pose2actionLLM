@@ -28,21 +28,23 @@ python scripts/generate_synthetic_dataset.py --per-class 25 --seed 42
 골반–무릎의 화면상 길이는 선 자세보다 짧게 설정했습니다. 양쪽 무릎을 한 방향으로 이동시키던 기존 측면 생성 방식은 제거했습니다. 어깨·팔꿈치·골반·무릎을 좌우 각각 생성하여 총 8개 관절만 포함합니다.
 실제 사람의 측정값이나 카메라 투영 시뮬레이션이 아니므로 실제 모델 성능 평가에는 사용하지 마세요.
 
+사진은 **정면 비반전 · 8개 관절 · 생성기 v2** 기준입니다. 각 모음에는 해당 클래스의 새 샘플 25개가 표시됩니다.
+
 ## 0: SITTING_HAND_DOWN
 
-![SITTING_HAND_DOWN 합성 샘플 25개](assets/overview_0_SITTING_HAND_DOWN.png)
+![SITTING_HAND_DOWN 합성 샘플 25개](assets/front-v2-overview_0_SITTING_HAND_DOWN.png)
 
 ## 1: SITTING_HAND_UP
 
-![SITTING_HAND_UP 합성 샘플 25개](assets/overview_1_SITTING_HAND_UP.png)
+![SITTING_HAND_UP 합성 샘플 25개](assets/front-v2-overview_1_SITTING_HAND_UP.png)
 
 ## 2: STANDING_HAND_DOWN
 
-![STANDING_HAND_DOWN 합성 샘플 25개](assets/overview_2_STANDING_HAND_DOWN.png)
+![STANDING_HAND_DOWN 합성 샘플 25개](assets/front-v2-overview_2_STANDING_HAND_DOWN.png)
 
 ## 3: STANDING_HAND_UP
 
-![STANDING_HAND_UP 합성 샘플 25개](assets/overview_3_STANDING_HAND_UP.png)
+![STANDING_HAND_UP 합성 샘플 25개](assets/front-v2-overview_3_STANDING_HAND_UP.png)
 
 정면 비반전 예시에서는 해부학적 왼쪽(파랑)이 화면 오른쪽에 표시됩니다. 실제 입력의 좌우를 자동으로 교환하는 기능은 아닙니다. 8개 관절 정면 2D 좌표만으로 앉기/서기를 구분하기 어려운 경우가 있으므로 이 합성 패턴을 실제 성능의 근거로 사용하지 마세요.
 
