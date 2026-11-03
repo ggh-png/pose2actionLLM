@@ -146,3 +146,17 @@ python scripts/generate_synthetic_dataset.py --per-class 25 --seed 42
 포함됩니다. 앉은 자세는 허벅지가 대체로 수평인 비스듬한 측면 도식이며,
 선 자세는 허벅지가 대체로 수직입니다. 어깨·팔꿈치·골반·무릎을 좌우 각각 생성하여 총 8개 관절만 포함합니다.
 실제 사람의 측정값이나 카메라 투영 시뮬레이션이 아니므로 실제 모델 성능 평가에는 사용하지 마세요.
+
+## MkDocs 문서 사이트
+
+전체 흐름 Mermaid, 8개 관절 입력 형식, 시각화 갤러리, 전처리·LLM 평가·API 가이드를 제공합니다.
+
+```bash
+source .venv/bin/activate
+python -m pip install -e '.[docs]'
+mkdocs serve --dev-addr 127.0.0.1:8001
+```
+
+브라우저에서 <http://127.0.0.1:8001>로 접속하세요.
+`mkdocs build --strict`로 정적 문서를 `site/`에 빌드합니다.
+[문서 홈](docs/index.md) · [전체 흐름](docs/pipeline.md) · [문서 관리](docs/development.md)
