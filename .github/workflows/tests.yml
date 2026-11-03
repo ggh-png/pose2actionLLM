@@ -10,8 +10,10 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install -c requirements-dev.lock.txt -e '.[api,dev]'
       - run: ruff check .
-      - run: bash -n scripts/run_server.sh
+      - run: bash -n scripts/run_server.sh scripts/setup_server.sh
       - run: pytest -q
+      - name: Verify server setup in a fresh virtual environment
+        run: bash scripts/setup_server.sh --directory "$GITHUB_WORKSPACE" --venv "$RUNNER_TEMP/pose2actionLLM-setup-env"
   docs:
     runs-on: ubuntu-latest
     steps:

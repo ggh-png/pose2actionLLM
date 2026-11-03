@@ -182,3 +182,18 @@ bash scripts/run_server.sh --input data/test.jsonl --mode remote \
 실행별 `results/runs/` 폴더에 점검·평가·오분류·실패 원인을 저장합니다.
 기존 모델 endpoint 사용, few-shot, 여러 모델 비교도 지원합니다.
 [서버 자동화 가이드](docs/server-automation.md)를 참고하세요.
+
+
+## 서버 최초 설치
+
+Ubuntu/Debian 서버에서:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ggh-png/pose2actionLLM/main/scripts/setup_server.sh \
+  -o /tmp/pose2action-setup.sh
+bash /tmp/pose2action-setup.sh --install-system
+```
+
+저장소 clone, 가상환경·기본 패키지 설치, mock 연결 시험을 진행합니다.
+GPU 서버의 vLLM 설치는 `--with-vllm`을 추가합니다.
+[서버 최초 설치 가이드](docs/server-setup.md)를 참고하세요.

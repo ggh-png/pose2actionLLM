@@ -6,6 +6,8 @@
 
 ## 처음 서버에 접속했을 때
 
+환경이 준비되지 않았다면 [서버 최초 설치](server-setup.md) 스크립트부터 실행하세요.
+
 ```bash
 git clone https://github.com/ggh-png/pose2actionLLM.git
 cd pose2actionLLM
