@@ -7,23 +7,14 @@ from pathlib import Path
 
 LABELS = ("SITTING_HAND_DOWN", "SITTING_HAND_UP", "STANDING_HAND_DOWN", "STANDING_HAND_UP")
 KEYPOINTS = (
-    "nose",
-    "left_eye",
-    "right_eye",
-    "left_ear",
-    "right_ear",
     "left_shoulder",
     "right_shoulder",
     "left_elbow",
     "right_elbow",
-    "left_wrist",
-    "right_wrist",
     "left_hip",
     "right_hip",
     "left_knee",
     "right_knee",
-    "left_ankle",
-    "right_ankle",
 )
 
 
@@ -67,7 +58,9 @@ def validate_sample(sample):
     points = {}
     for name, point in sample["keypoints"].items():
         if name not in KEYPOINTS:
-            raise ValueError(f"Unknown keypoint {name!r}; use named COCO keypoints")
+            raise ValueError(
+                f"Unknown keypoint {name!r}; use the 8 shoulder/elbow/hip/knee keypoints"
+            )
         if point is None:
             points[name] = None
             continue

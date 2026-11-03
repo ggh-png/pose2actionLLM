@@ -39,26 +39,26 @@ def test_normalize_without_mutation(sample):
 
 @pytest.mark.parametrize("value", [float("nan"), float("inf"), True, "bad", -1, 9999])
 def test_reject_invalid_coordinate(sample, value):
-    sample["keypoints"]["nose"]["x"] = value
+    sample["keypoints"]["left_hip"]["x"] = value
     with pytest.raises(ValueError):
         load_sample(sample)
 
 
 def test_missing_and_confidence(sample):
-    sample["keypoints"]["nose"] = [0, 0]
-    sample["keypoints"]["left_wrist"] = None
-    sample["keypoints"]["right_wrist"] = {"x": 10, "y": 20, "confidence": 0.1}
+    sample["keypoints"]["left_hip"] = [0, 0]
+    sample["keypoints"]["left_elbow"] = None
+    sample["keypoints"]["right_elbow"] = {"x": 10, "y": 20, "confidence": 0.1}
     result = preprocess(sample, 0.5)
-    assert result["keypoints"]["nose"]["x"] == 0
-    assert result["keypoints"]["right_wrist"] is None
-    assert extract_features(result)["left_hand_above_shoulder"] is None
+    assert result["keypoints"]["left_hip"]["x"] == 0
+    assert result["keypoints"]["right_elbow"] is None
+    assert extract_features(result)["left_elbow_above_shoulder"] is None
 
 
 def test_features_follow_downward_y(sample):
     features = extract_features(sample)
-    assert features["left_hand_above_shoulder"] is True
-    assert features["right_hand_above_shoulder"] is False
-    assert features["left_wrist_relative_y"] < 0
+    assert features["left_elbow_above_shoulder"] is True
+    assert features["right_elbow_above_shoulder"] is False
+    assert features["left_elbow_relative_y"] < 0
 
 
 def test_prompt_does_not_leak_labels(sample):
@@ -99,7 +99,7 @@ def test_remote_protocol_with_fake_transport(sample, monkeypatch):
 
 
 def test_plots_and_missing_edges(sample, tmp_path):
-    sample["keypoints"]["left_wrist"] = None
+    sample["keypoints"]["left_elbow"] = None
     for path in plot_comparison(sample, tmp_path, True):
         assert path.read_bytes().startswith(b"\x89PNG")
     assert plot_pose(dict(sample, prediction=0), tmp_path / "error.png").exists()
@@ -154,3 +154,35 @@ def test_api_validation(sample):
     assert response.status_code == 200
     assert response.json()["backend"] == "mock"
     assert client.post("/predict", json={"sample": {}}).status_code == 422
+
+
+def test_eight_joint_contract():
+    from pose_llm_classifier.data import KEYPOINTS
+    from pose_llm_classifier.visualization import EDGES
+
+    expected = {
+        f"{side}_{part}"
+        for side in ("left", "right")
+        for part in ("shoulder", "elbow", "hip", "knee")
+    }
+    assert set(KEYPOINTS) == expected
+    assert all(a in expected and b in expected for a, b in EDGES)
+    for filename in (
+        "sample.json",
+        "pixel.json",
+        "poses.jsonl",
+        "poses.csv",
+        "synthetic_100.jsonl",
+    ):
+        for sample in iter_samples(DATA / filename):
+            assert set(sample["keypoints"]) == expected
+            features = extract_features(sample)
+            assert (
+                features["left_elbow_above_shoulder"] or features["right_elbow_above_shoulder"]
+            ) == bool(sample["label"] % 2)
+
+
+def test_unavailable_joint_rejected(sample):
+    sample["keypoints"]["left_wrist"] = [0.2, 0.3]
+    with pytest.raises(ValueError, match="8 shoulder/elbow/hip/knee"):
+        load_sample(sample)

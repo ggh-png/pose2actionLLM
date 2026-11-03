@@ -31,14 +31,14 @@ Ubuntu에서 `ensurepip` 오류가 발생하면 `python3-venv` 패키지를 설�
   "keypoints": {
     "left_shoulder": [0.4, 0.28],
     "right_shoulder": {"x": 0.6, "y": 0.28, "confidence": 0.95},
-    "left_wrist": null
+    "left_elbow": null
   }
 }
 ```
 
 - JSON: 단일 객체 또는 객체 배열. JSONL: 줄당 객체 하나. CSV: `keypoints` 열에 JSON 객체를 넣습니다 (`data/sample/poses.csv` 참고).
 - Python dict는 `load_sample({...})`, `plot_pose({...}, 'pose.png')`로 전달합니다.
-- 이름은 COCO 17개 관절의 영문 snake_case입니다. 순서만 있는 배열이나 estimator별 인덱스는 자동 추측하지 않습니다.
+- 입력은 좌우 shoulder, elbow, hip, knee의 8개 관절이며 영문 snake_case 이름을 사용합니다. 머리·손목·발목은 입력에 포함하지 않습니다. 순서만 있는 배열이나 estimator별 인덱스는 자동 추측하지 않습니다.
 - 기본 좌표는 `[0,1]`, 좌상단 원점, x 오른쪽/y 아래쪽입니다. pixel 입력은 `coordinate_space: "pixel"`, 양수 `image_width`, `image_height`가 필요합니다.
 - 누락 좌표는 `null`; `(0,0)`은 유효한 좌표입니다. `presence=0`은 사용하지 않으며 `--min-confidence` 미만 관절도 전처리에서 제외합니다.
 - NaN/Infinity, 범위 초과, 알 수 없는 관절명, 일부만 있는 x/y는 오류입니다. crop 밖 좌표를 자동으로 잘라내지 않습니다.
@@ -53,7 +53,7 @@ Ubuntu에서 `ensurepip` 오류가 발생하면 `python3-venv` 패키지를 설�
 | 2 | STANDING_HAND_DOWN |
 | 3 | STANDING_HAND_UP |
 
-HAND_UP은 어느 한쪽 손목이라도 같은 쪽 어깨보다 위에 있을 때로 정의했습니다. 앉기/서기 판단은 LLM에 맡기며 검증된 규칙 기반 분류기는 포함하지 않습니다.
+기존 클래스명 HAND_UP은 유지하되, 어느 한쪽 팔꿈치라도 같은 쪽 어깨보다 위에 있는 것을 팔 올림의 대리 기준으로 사용합니다. 손목이 없으므로 실제 손 높이는 알 수 없으며, 팔꿈치를 내린 채 손만 올린 자세는 구분할 수 없습니다. 앉기/서기 판단은 LLM에 맡기며 검증된 규칙 기반 분류기는 포함하지 않습니다.
 
 ## 시각화부터 시작
 
@@ -78,7 +78,7 @@ python scripts/extract_features.py --input data/sample/poses.jsonl --output resu
 python scripts/evaluate_llm.py --input data/sample/poses.jsonl --dry-run
 ```
 
-pixel 좌표를 이미지 너비/높이로 나눕니다. 중심 이동, 좌우 반전, 좌표 추측은 하지 않습니다. feature는 정규화된 이미지 공간에서 계산합니다. torso_length는 사용 가능한 좌우 어깨-엉덩이 거리의 평균이며, wrist_relative_y는 어깨 기준 y차이를 torso_length로 나눈 값입니다. 계산할 수 없는 값은 null입니다.
+pixel 좌표를 이미지 너비/높이로 나눕니다. 중심 이동, 좌우 반전, 좌표 추측은 하지 않습니다. feature는 정규화된 이미지 공간에서 계산합니다. torso_length는 사용 가능한 좌우 어깨-엉덩이 거리의 평균이며, elbow_relative_y는 어깨 기준 y차이를 torso_length로 나눈 값입니다. 계산할 수 없는 값은 null입니다.
 
 `prompts.jsonl`에서 실제 전달할 좌표·feature를 확인할 수 있습니다. label/prediction/id 등의 메타데이터는 질의 프롬프트에 들어가지 않습니다. `--few-shot train_examples.jsonl`로 별도 학습 예시를 넣을 수 있습니다. 같은 파일 사용은 거부하지만, 파일 간 중복 샘플 방지는 사용자가 데이터 분할 단계에서 확인해야 합니다.
 
@@ -143,6 +143,6 @@ python scripts/generate_synthetic_dataset.py --per-class 25 --seed 42
 `manifest.json`에는 클래스별 수량과 seed가 기록됩니다. 같은 seed로 재생성할 수 있습니다.
 
 몸의 비율·위치·크기와 팔·다리 위치를 변화시킵니다. HAND_UP에는 왼손/오른손/양손을 든 경우가
-포함됩니다. 앉은 자세는 허벅지가 대체로 수평이고 종아리가 수직인 비스듬한 측면 도식이며,
-선 자세는 다리가 대체로 수직입니다. 13개 관절을 생성하고 눈/귀는 생략합니다.
+포함됩니다. 앉은 자세는 허벅지가 대체로 수평인 비스듬한 측면 도식이며,
+선 자세는 허벅지가 대체로 수직입니다. 어깨·팔꿈치·골반·무릎을 좌우 각각 생성하여 총 8개 관절만 포함합니다.
 실제 사람의 측정값이나 카메라 투영 시뮬레이션이 아니므로 실제 모델 성능 평가에는 사용하지 마세요.

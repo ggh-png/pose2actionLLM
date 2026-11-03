@@ -25,7 +25,7 @@ def build_messages(sample, examples=(), min_confidence=0):
     system = (
         "Classify a single 2D human pose. Return exactly one digit (0, 1, 2, or 3). "
         "Class map: " + json.dumps(dict(enumerate(LABELS))) + ". "
-        "HAND_UP means at least one hand above its same-side shoulder. "
+        "Only 8 joints are available: left/right shoulder, elbow, hip, knee. No wrists or ankles. For the existing HAND_UP label, use at least one elbow above its same-side shoulder as an arm-raised proxy; actual hand height is unobservable. "
         "Left/right are anatomical. Missing points are null; never interpret them as zero. "
         "Infer sitting/standing from the available joint geometry. /no_think"
     )

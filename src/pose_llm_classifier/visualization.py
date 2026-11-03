@@ -12,10 +12,8 @@ for _side in ("left", "right"):
         (f"{_side}_{a}", f"{_side}_{b}")
         for a, b in (
             ("shoulder", "elbow"),
-            ("elbow", "wrist"),
             ("shoulder", "hip"),
             ("hip", "knee"),
-            ("knee", "ankle"),
         )
     )
 

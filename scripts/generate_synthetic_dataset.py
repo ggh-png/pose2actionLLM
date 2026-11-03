@@ -18,7 +18,7 @@ def generate_samples(per_class=25, seed=42):
     """Vary body proportions, limbs, position and scale while preserving labels.
 
     Seated poses use a schematic oblique view: thighs run mostly horizontally,
-    shins mostly vertically. Standing poses have nearly straight vertical legs.
+    with no shins observed. Standing poses have mostly vertical thighs.
     These are illustrative poses, not a physiological or camera simulation.
     """
     if per_class < 1:
@@ -34,7 +34,7 @@ def generate_samples(per_class=25, seed=42):
             shoulder_width = rng.uniform(0.15, 0.21)
             hip_width = rng.uniform(0.10, 0.15)
             lean = rng.uniform(-0.035, 0.035)
-            points = {"nose": [0.5 + lean, shoulder_y - rng.uniform(0.10, 0.13)]}
+            points = {}
             seat_direction = rng.choice((-1, 1))
             for side, sign in (("left", -1), ("right", 1)):
                 sx = 0.5 + lean + sign * shoulder_width / 2
@@ -47,23 +47,14 @@ def generate_samples(per_class=25, seed=42):
                     sx + sign * rng.uniform(0.065, 0.11),
                     sy + rng.uniform(-0.10, -0.055) if up else sy + rng.uniform(0.095, 0.14),
                 ]
-                points[f"{side}_wrist"] = [
-                    sx + sign * rng.uniform(0.085, 0.16),
-                    sy - rng.uniform(0.16, 0.205) if up else sy + rng.uniform(0.19, 0.25),
-                ]
                 if seated:
                     kx = hx + seat_direction * rng.uniform(0.15, 0.21)
                     ky = hip_y + rng.uniform(0.015, 0.055)
-                    ax = kx + rng.uniform(-0.035, 0.035)
-                    ay = ky + rng.uniform(0.19, 0.24)
                 else:
                     kx = hx + sign * rng.uniform(0.0, 0.025)
                     ky = hip_y + rng.uniform(0.15, 0.18)
-                    ax = kx + sign * rng.uniform(0.0, 0.025)
-                    ay = ky + rng.uniform(0.14, 0.17)
                 points[f"{side}_knee"] = [kx, ky]
-                points[f"{side}_ankle"] = [ax, ay]
-            # Uniform scale preserves limb angles and hand-height relations.
+            # Uniform scale preserves limb angles and elbow-height relations.
             scale = rng.uniform(0.82, 1.0)
             dx, dy = rng.uniform(-0.055, 0.055), rng.uniform(-0.025, 0.025)
             points = {
@@ -80,13 +71,13 @@ def generate_samples(per_class=25, seed=42):
                     "generator_seed": seed,
                     "coordinate_space": "normalized",
                     "label": label,
-                    "raised_hand": raised,
+                    "raised_arm": raised,
                     "keypoints": points,
                 }
             )
             features = extract_features(sample)
             assert (
-                features["left_hand_above_shoulder"] or features["right_hand_above_shoulder"]
+                features["left_elbow_above_shoulder"] or features["right_elbow_above_shoulder"]
             ) == hands_up
             samples.append(sample)
     return samples
@@ -117,7 +108,7 @@ def plot_overview(samples, output, title, columns=5):
             )
             ax.scatter(point["x"], point["y"], c=color, s=12, zorder=3)
         ax.set(xlim=(0, 1), ylim=(1, 0), aspect="equal", xticks=[], yticks=[])
-        ax.set_title(f"{sample['id']} | {sample['raised_hand']}", fontsize=8)
+        ax.set_title(f"{sample['id']} | {sample['raised_arm']}", fontsize=8)
     for ax in list(axes.flat)[len(samples) :]:
         ax.set_visible(False)
     fig.suptitle(title + "\nSynthetic poses | blue: left, orange: right | y down", fontsize=13)
