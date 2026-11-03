@@ -83,7 +83,9 @@ bash scripts/run_server.sh --input data/test.jsonl --mode remote \
   --max-model-len 4096 --gpu-memory-utilization 0.8 --startup-timeout 1800
 ```
 
-이 저장소에서는 실제 GPU 모델 설치·기동은 실행하지 않았으며 mock과 가짜 HTTP 서버로 연결 흐름을 검증했습니다.
+초기 연결 흐름은 mock과 가짜 HTTP 서버로 검증했습니다. 2026-11-03에는 별도 가상환경에서
+수동 기동한 vLLM 서버와 `evaluate_llm.py`로 Qwen3-4B 합성 100개 평가를 완료했습니다.
+[실험 결과와 실행 조건](experiment-results.md)을 참고하세요. 이 실행이 래퍼의 자동 GPU 기동 경로까지 검증한 것은 아닙니다.
 vLLM 시작 옵션은 [공식 serve 문서](https://docs.vllm.ai/en/latest/cli/serve/)와
 [thinking 비활성화 안내](https://docs.vllm.ai/en/stable/features/reasoning_outputs/)를 기준으로 작성했습니다.
 선택한 모델의 chat template이 `enable_thinking=false`를 지원하는지도 확인하세요.

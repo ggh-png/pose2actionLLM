@@ -15,6 +15,9 @@ PNG는 `results/visualize_pose/`, `results/visualize_dataset/`에 저장됩니�
 
 ## 클래스별 합성 데이터 100개
 
+[100개 전체 샘플 목록](dataset-100.md)에서 개별 JSON·PNG와 통합 JSONL을 확인할 수 있습니다.
+이 데이터로 실행한 [Qwen3-4B와 mock 실험 결과](experiment-results.md)도 제공합니다.
+
 ```bash
 python scripts/generate_synthetic_dataset.py --per-class 25 --seed 42
 ```

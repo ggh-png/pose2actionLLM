@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "model": "Qwen/Qwen3-4B",
+  "reply": "0",
+  "base_url": "http://127.0.0.1:18080/v1",
+  "purpose": "GPU/API smoke test only; no pose evaluation",
+  "server_stopped": true,
+  "actual_pose_evaluation": false,
+  "vllm": "0.33.0",
+  "torch": "2.14.0+cu130",
+  "gpu": "NVIDIA GeForce RTX 5090"
+}

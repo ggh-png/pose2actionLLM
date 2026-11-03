@@ -36,8 +36,10 @@ nav:
       - 서버 자동 실행과 피드백: server-automation.md
       - 8개 관절 데이터 형식: data-format.md
       - 시각화와 합성 데이터: visualization.md
+      - 합성 데이터 100개 목록: dataset-100.md
       - 전처리와 Feature: preprocessing.md
       - LLM 평가와 모델 비교: evaluation.md
+      - 합성 100개 LLM 실험 결과: experiment-results.md
       - FastAPI: api.md
   - 개발 참고:
       - 코드 구조와 문서 관리: development.md

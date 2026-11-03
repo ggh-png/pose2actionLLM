@@ -1,0 +1,616 @@
+{
+  "dataset": "data/sample/synthetic_100.jsonl",
+  "seed": 42,
+  "generator_version": 2,
+  "view": "front_unmirrored",
+  "total": 100,
+  "counts": {
+    "SITTING_HAND_DOWN": 25,
+    "SITTING_HAND_UP": 25,
+    "STANDING_HAND_DOWN": 25,
+    "STANDING_HAND_UP": 25
+  },
+  "samples": [
+    {
+      "id": "synthetic-0-000",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-000.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-000.png"
+    },
+    {
+      "id": "synthetic-0-001",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-001.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-001.png"
+    },
+    {
+      "id": "synthetic-0-002",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-002.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-002.png"
+    },
+    {
+      "id": "synthetic-0-003",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-003.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-003.png"
+    },
+    {
+      "id": "synthetic-0-004",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-004.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-004.png"
+    },
+    {
+      "id": "synthetic-0-005",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-005.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-005.png"
+    },
+    {
+      "id": "synthetic-0-006",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-006.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-006.png"
+    },
+    {
+      "id": "synthetic-0-007",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-007.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-007.png"
+    },
+    {
+      "id": "synthetic-0-008",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-008.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-008.png"
+    },
+    {
+      "id": "synthetic-0-009",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-009.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-009.png"
+    },
+    {
+      "id": "synthetic-0-010",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-010.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-010.png"
+    },
+    {
+      "id": "synthetic-0-011",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-011.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-011.png"
+    },
+    {
+      "id": "synthetic-0-012",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-012.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-012.png"
+    },
+    {
+      "id": "synthetic-0-013",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-013.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-013.png"
+    },
+    {
+      "id": "synthetic-0-014",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-014.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-014.png"
+    },
+    {
+      "id": "synthetic-0-015",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-015.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-015.png"
+    },
+    {
+      "id": "synthetic-0-016",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-016.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-016.png"
+    },
+    {
+      "id": "synthetic-0-017",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-017.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-017.png"
+    },
+    {
+      "id": "synthetic-0-018",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-018.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-018.png"
+    },
+    {
+      "id": "synthetic-0-019",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-019.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-019.png"
+    },
+    {
+      "id": "synthetic-0-020",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-020.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-020.png"
+    },
+    {
+      "id": "synthetic-0-021",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-021.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-021.png"
+    },
+    {
+      "id": "synthetic-0-022",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-022.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-022.png"
+    },
+    {
+      "id": "synthetic-0-023",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-023.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-023.png"
+    },
+    {
+      "id": "synthetic-0-024",
+      "label": 0,
+      "json": "0_SITTING_HAND_DOWN/synthetic-0-024.json",
+      "image": "0_SITTING_HAND_DOWN/synthetic-0-024.png"
+    },
+    {
+      "id": "synthetic-1-000",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-000.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-000.png"
+    },
+    {
+      "id": "synthetic-1-001",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-001.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-001.png"
+    },
+    {
+      "id": "synthetic-1-002",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-002.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-002.png"
+    },
+    {
+      "id": "synthetic-1-003",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-003.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-003.png"
+    },
+    {
+      "id": "synthetic-1-004",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-004.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-004.png"
+    },
+    {
+      "id": "synthetic-1-005",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-005.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-005.png"
+    },
+    {
+      "id": "synthetic-1-006",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-006.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-006.png"
+    },
+    {
+      "id": "synthetic-1-007",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-007.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-007.png"
+    },
+    {
+      "id": "synthetic-1-008",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-008.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-008.png"
+    },
+    {
+      "id": "synthetic-1-009",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-009.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-009.png"
+    },
+    {
+      "id": "synthetic-1-010",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-010.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-010.png"
+    },
+    {
+      "id": "synthetic-1-011",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-011.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-011.png"
+    },
+    {
+      "id": "synthetic-1-012",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-012.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-012.png"
+    },
+    {
+      "id": "synthetic-1-013",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-013.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-013.png"
+    },
+    {
+      "id": "synthetic-1-014",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-014.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-014.png"
+    },
+    {
+      "id": "synthetic-1-015",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-015.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-015.png"
+    },
+    {
+      "id": "synthetic-1-016",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-016.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-016.png"
+    },
+    {
+      "id": "synthetic-1-017",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-017.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-017.png"
+    },
+    {
+      "id": "synthetic-1-018",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-018.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-018.png"
+    },
+    {
+      "id": "synthetic-1-019",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-019.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-019.png"
+    },
+    {
+      "id": "synthetic-1-020",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-020.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-020.png"
+    },
+    {
+      "id": "synthetic-1-021",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-021.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-021.png"
+    },
+    {
+      "id": "synthetic-1-022",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-022.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-022.png"
+    },
+    {
+      "id": "synthetic-1-023",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-023.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-023.png"
+    },
+    {
+      "id": "synthetic-1-024",
+      "label": 1,
+      "json": "1_SITTING_HAND_UP/synthetic-1-024.json",
+      "image": "1_SITTING_HAND_UP/synthetic-1-024.png"
+    },
+    {
+      "id": "synthetic-2-000",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-000.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-000.png"
+    },
+    {
+      "id": "synthetic-2-001",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-001.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-001.png"
+    },
+    {
+      "id": "synthetic-2-002",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-002.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-002.png"
+    },
+    {
+      "id": "synthetic-2-003",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-003.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-003.png"
+    },
+    {
+      "id": "synthetic-2-004",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-004.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-004.png"
+    },
+    {
+      "id": "synthetic-2-005",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-005.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-005.png"
+    },
+    {
+      "id": "synthetic-2-006",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-006.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-006.png"
+    },
+    {
+      "id": "synthetic-2-007",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-007.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-007.png"
+    },
+    {
+      "id": "synthetic-2-008",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-008.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-008.png"
+    },
+    {
+      "id": "synthetic-2-009",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-009.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-009.png"
+    },
+    {
+      "id": "synthetic-2-010",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-010.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-010.png"
+    },
+    {
+      "id": "synthetic-2-011",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-011.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-011.png"
+    },
+    {
+      "id": "synthetic-2-012",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-012.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-012.png"
+    },
+    {
+      "id": "synthetic-2-013",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-013.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-013.png"
+    },
+    {
+      "id": "synthetic-2-014",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-014.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-014.png"
+    },
+    {
+      "id": "synthetic-2-015",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-015.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-015.png"
+    },
+    {
+      "id": "synthetic-2-016",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-016.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-016.png"
+    },
+    {
+      "id": "synthetic-2-017",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-017.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-017.png"
+    },
+    {
+      "id": "synthetic-2-018",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-018.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-018.png"
+    },
+    {
+      "id": "synthetic-2-019",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-019.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-019.png"
+    },
+    {
+      "id": "synthetic-2-020",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-020.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-020.png"
+    },
+    {
+      "id": "synthetic-2-021",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-021.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-021.png"
+    },
+    {
+      "id": "synthetic-2-022",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-022.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-022.png"
+    },
+    {
+      "id": "synthetic-2-023",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-023.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-023.png"
+    },
+    {
+      "id": "synthetic-2-024",
+      "label": 2,
+      "json": "2_STANDING_HAND_DOWN/synthetic-2-024.json",
+      "image": "2_STANDING_HAND_DOWN/synthetic-2-024.png"
+    },
+    {
+      "id": "synthetic-3-000",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-000.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-000.png"
+    },
+    {
+      "id": "synthetic-3-001",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-001.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-001.png"
+    },
+    {
+      "id": "synthetic-3-002",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-002.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-002.png"
+    },
+    {
+      "id": "synthetic-3-003",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-003.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-003.png"
+    },
+    {
+      "id": "synthetic-3-004",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-004.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-004.png"
+    },
+    {
+      "id": "synthetic-3-005",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-005.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-005.png"
+    },
+    {
+      "id": "synthetic-3-006",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-006.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-006.png"
+    },
+    {
+      "id": "synthetic-3-007",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-007.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-007.png"
+    },
+    {
+      "id": "synthetic-3-008",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-008.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-008.png"
+    },
+    {
+      "id": "synthetic-3-009",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-009.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-009.png"
+    },
+    {
+      "id": "synthetic-3-010",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-010.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-010.png"
+    },
+    {
+      "id": "synthetic-3-011",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-011.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-011.png"
+    },
+    {
+      "id": "synthetic-3-012",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-012.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-012.png"
+    },
+    {
+      "id": "synthetic-3-013",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-013.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-013.png"
+    },
+    {
+      "id": "synthetic-3-014",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-014.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-014.png"
+    },
+    {
+      "id": "synthetic-3-015",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-015.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-015.png"
+    },
+    {
+      "id": "synthetic-3-016",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-016.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-016.png"
+    },
+    {
+      "id": "synthetic-3-017",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-017.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-017.png"
+    },
+    {
+      "id": "synthetic-3-018",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-018.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-018.png"
+    },
+    {
+      "id": "synthetic-3-019",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-019.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-019.png"
+    },
+    {
+      "id": "synthetic-3-020",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-020.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-020.png"
+    },
+    {
+      "id": "synthetic-3-021",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-021.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-021.png"
+    },
+    {
+      "id": "synthetic-3-022",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-022.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-022.png"
+    },
+    {
+      "id": "synthetic-3-023",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-023.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-023.png"
+    },
+    {
+      "id": "synthetic-3-024",
+      "label": 3,
+      "json": "3_STANDING_HAND_UP/synthetic-3-024.json",
+      "image": "3_STANDING_HAND_UP/synthetic-3-024.png"
+    }
+  ],
+  "note": "Front-view synthetic illustrations only; not measured poses or a performance benchmark."
+}

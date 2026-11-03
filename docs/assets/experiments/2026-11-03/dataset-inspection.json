@@ -1,0 +1,16 @@
+{
+  "total": 100,
+  "class_counts": {
+    "0": 25,
+    "1": 25,
+    "2": 25,
+    "3": 25
+  },
+  "unlabeled": 0,
+  "synthetic": 100,
+  "duplicates": 0,
+  "missing_after_filter": {},
+  "elbow_label_mismatches": 0,
+  "dataset_sha256": "100321794e7ba71dd1e89bf19f1afe3bfb85ffadcb4769d155875d6c432f19a1",
+  "code_revision": "a0a6743a4673c8a6eb9cf4e59ce4e936099f36fa"
+}
