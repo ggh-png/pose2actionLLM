@@ -160,3 +160,9 @@ mkdocs serve --dev-addr 127.0.0.1:8001
 브라우저에서 <http://127.0.0.1:8001>로 접속하세요.
 `mkdocs build --strict`로 정적 문서를 `site/`에 빌드합니다.
 [문서 홈](docs/index.md) · [전체 흐름](docs/pipeline.md) · [문서 관리](docs/development.md)
+
+
+문서 자동 빌드: [Documentation Actions](https://github.com/ggh-png/pose2actionLLM/actions/workflows/docs.yml).
+성공한 실행의 `documentation-html` 아티팩트에서 HTML을 다운로드할 수 있습니다.
+현재 비공개 저장소의 요금제 제한으로 Pages 배포는 비활성화되어 있습니다.
+활성화 절차는 [문서 관리 가이드](docs/development.md)에 정리했습니다.

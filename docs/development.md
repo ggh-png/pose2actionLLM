@@ -31,7 +31,7 @@ mkdocs build --strict
 ```
 
 `site/`에 정적 HTML이 생성됩니다. 문서 CI에서도 strict 빌드를 실행하여 깨진 문서 링크와 설정 경고를 확인합니다.
-정적 사이트 호스팅 배포는 설정하지 않았습니다.
+GitHub Actions에서 빌드 결과물을 저장하며, Pages 배포는 아래 조건을 충족한 뒤 활성화합니다.
 
 ## Mermaid
 
@@ -55,3 +55,23 @@ mkdocs build --strict
 
 [개발 진행 현황](STATUS.md)과 [최초 첨부 요구사항](visualization-requirements.md)은 별도로 보존합니다.
 현재 입력 계약은 [8개 관절 데이터 형식](data-format.md)을 기준으로 합니다.
+
+## GitHub Actions와 Pages
+
+[Documentation 워크플로](https://github.com/ggh-png/pose2actionLLM/actions/workflows/docs.yml)는
+main의 문서·설정 변경 시 자동 실행되고 수동 실행도 가능합니다.
+성공한 실행의 **Artifacts → documentation-html**에서 정적 HTML 사이트를 다운로드합니다.
+압축을 풀고 해당 폴더에서 `python3 -m http.server 8001`을 실행하면 로컬에서 볼 수 있습니다.
+아티팩트 보관 기간은 30일입니다.
+
+현재 비공개 저장소는 계정 요금제 제한으로 Pages 활성화가 거절되었습니다.
+따라서 HTML 빌드·업로드는 실행하지만 배포 job은 건너뜁니다.
+저장소를 공개로 전환하거나 비공개 Pages 지원 요금제를 적용한 후 다음 설정으로 활성화합니다.
+
+1. 저장소 **Settings → Pages → Source**를 **GitHub Actions**로 설정합니다.
+2. **Settings → Secrets and variables → Actions → Variables**에 `PAGES_ENABLED=true`를 추가합니다.
+3. **Actions → Documentation → Run workflow**를 실행합니다.
+
+배포 성공 후 예정 주소는 <https://ggh-png.github.io/pose2actionLLM/>입니다.
+현재는 배포 완료된 주소가 아닙니다. 자세한 지원 조건은
+[GitHub Pages 공식 안내](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)를 참고하세요.

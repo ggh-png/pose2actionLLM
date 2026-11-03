@@ -1,4 +1,5 @@
 site_name: pose2actionLLM
+site_url: https://ggh-png.github.io/pose2actionLLM/
 site_description: 8개 관절 기반 Pose 시각화와 LLM 동작 분류 개발 문서
 repo_url: https://github.com/ggh-png/pose2actionLLM
 repo_name: ggh-png/pose2actionLLM
