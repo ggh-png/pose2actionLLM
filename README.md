@@ -164,5 +164,5 @@ mkdocs serve --dev-addr 127.0.0.1:8001
 
 문서 자동 빌드: [Documentation Actions](https://github.com/ggh-png/pose2actionLLM/actions/workflows/docs.yml).
 성공한 실행의 `documentation-html` 아티팩트에서 HTML을 다운로드할 수 있습니다.
-현재 비공개 저장소의 요금제 제한으로 Pages 배포는 비활성화되어 있습니다.
+문서 사이트: <https://ggh-png.github.io/pose2actionLLM/>. main의 문서 변경 시 GitHub Pages로 자동 배포합니다.
 활성화 절차는 [문서 관리 가이드](docs/development.md)에 정리했습니다.

@@ -64,14 +64,13 @@ main의 문서·설정 변경 시 자동 실행되고 수동 실행도 가능합
 압축을 풀고 해당 폴더에서 `python3 -m http.server 8001`을 실행하면 로컬에서 볼 수 있습니다.
 아티팩트 보관 기간은 30일입니다.
 
-현재 비공개 저장소는 계정 요금제 제한으로 Pages 활성화가 거절되었습니다.
-따라서 HTML 빌드·업로드는 실행하지만 배포 job은 건너뜁니다.
-저장소를 공개로 전환하거나 비공개 Pages 지원 요금제를 적용한 후 다음 설정으로 활성화합니다.
+저장소는 공개로 전환되었으며 GitHub Pages의 Actions 배포를 활성화했습니다.
+main의 문서 변경 시 자동 배포됩니다. 다음은 설정을 재구성할 때 사용하는 절차입니다.
 
 1. 저장소 **Settings → Pages → Source**를 **GitHub Actions**로 설정합니다.
 2. **Settings → Secrets and variables → Actions → Variables**에 `PAGES_ENABLED=true`를 추가합니다.
 3. **Actions → Documentation → Run workflow**를 실행합니다.
 
-배포 성공 후 예정 주소는 <https://ggh-png.github.io/pose2actionLLM/>입니다.
-현재는 배포 완료된 주소가 아닙니다. 자세한 지원 조건은
+문서 주소는 <https://ggh-png.github.io/pose2actionLLM/>입니다.
+자세한 지원 조건은
 [GitHub Pages 공식 안내](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)를 참고하세요.
