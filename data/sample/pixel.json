@@ -1,0 +1,62 @@
+{
+  "id": "synthetic-3",
+  "synthetic": true,
+  "coordinate_space": "pixel",
+  "label": 3,
+  "keypoints": {
+    "nose": [
+      320.0,
+      67.2
+    ],
+    "left_shoulder": [
+      256.0,
+      134.4
+    ],
+    "right_shoulder": [
+      384.0,
+      134.4
+    ],
+    "left_elbow": [
+      192.0,
+      86.39999999999999
+    ],
+    "right_elbow": [
+      448.0,
+      192.0
+    ],
+    "left_wrist": [
+      160.0,
+      33.6
+    ],
+    "right_wrist": [
+      480.0,
+      249.60000000000002
+    ],
+    "left_hip": [
+      275.2,
+      264.0
+    ],
+    "right_hip": [
+      364.79999999999995,
+      264.0
+    ],
+    "left_knee": [
+      275.2,
+      350.4
+    ],
+    "right_knee": [
+      364.79999999999995,
+      350.4
+    ],
+    "left_ankle": [
+      275.2,
+      422.4
+    ],
+    "right_ankle": [
+      364.79999999999995,
+      422.4
+    ]
+  },
+  "image_width": 640,
+  "image_height": 480
+}

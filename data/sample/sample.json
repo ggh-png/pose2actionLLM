@@ -1,0 +1,60 @@
+{
+  "id": "synthetic-2",
+  "synthetic": true,
+  "coordinate_space": "normalized",
+  "label": 2,
+  "keypoints": {
+    "nose": [
+      0.5,
+      0.14
+    ],
+    "left_shoulder": [
+      0.4,
+      0.28
+    ],
+    "right_shoulder": [
+      0.6,
+      0.28
+    ],
+    "left_elbow": [
+      0.3,
+      0.4
+    ],
+    "right_elbow": [
+      0.7,
+      0.4
+    ],
+    "left_wrist": [
+      0.25,
+      0.52
+    ],
+    "right_wrist": [
+      0.75,
+      0.52
+    ],
+    "left_hip": [
+      0.43,
+      0.55
+    ],
+    "right_hip": [
+      0.57,
+      0.55
+    ],
+    "left_knee": [
+      0.43,
+      0.73
+    ],
+    "right_knee": [
+      0.57,
+      0.73
+    ],
+    "left_ankle": [
+      0.43,
+      0.88
+    ],
+    "right_ankle": [
+      0.57,
+      0.88
+    ]
+  }
+}
