@@ -48,7 +48,7 @@ GitHub Actions에서 빌드 결과물을 저장하며, Pages 배포는 아래 �
 ```bash
 python scripts/generate_synthetic_dataset.py --per-class 25 --seed 42
 python scripts/visualize_pose.py --input data/sample/pixel.json --show-preprocessed --show-features
-cp results/synthetic_100/overview_*.png docs/assets/
+cp data/sample/synthetic_100/overview_*.png docs/assets/
 cp results/visualize_pose/preprocessed_pose.png docs/assets/eight-joint-pose.png
 mkdocs build --strict
 ```

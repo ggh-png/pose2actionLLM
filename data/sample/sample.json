@@ -5,36 +5,38 @@
   "label": 2,
   "keypoints": {
     "left_shoulder": [
-      0.4,
-      0.28
-    ],
-    "right_shoulder": [
       0.6,
       0.28
     ],
-    "left_elbow": [
-      0.3,
-      0.4
+    "right_shoulder": [
+      0.4,
+      0.28
     ],
-    "right_elbow": [
+    "left_elbow": [
       0.7,
       0.4
     ],
+    "right_elbow": [
+      0.3,
+      0.4
+    ],
     "left_hip": [
-      0.43,
+      0.57,
       0.55
     ],
     "right_hip": [
-      0.57,
+      0.43,
       0.55
     ],
     "left_knee": [
-      0.43,
+      0.57,
       0.73
     ],
     "right_knee": [
-      0.57,
+      0.43,
       0.73
     ]
-  }
+  },
+  "view": "front_unmirrored",
+  "generator_version": 2
 }

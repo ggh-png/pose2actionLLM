@@ -1,0 +1,45 @@
+{
+  "id": "synthetic-2-013",
+  "synthetic": true,
+  "generator_seed": 42,
+  "generator_version": 2,
+  "view": "front_unmirrored",
+  "coordinate_space": "normalized",
+  "label": 2,
+  "raised_arm": "none",
+  "keypoints": {
+    "left_shoulder": {
+      "x": 0.5777,
+      "y": 0.34261
+    },
+    "left_hip": {
+      "x": 0.5878,
+      "y": 0.57421
+    },
+    "left_elbow": {
+      "x": 0.65081,
+      "y": 0.43881
+    },
+    "left_knee": {
+      "x": 0.59529,
+      "y": 0.71546
+    },
+    "right_shoulder": {
+      "x": 0.4406,
+      "y": 0.33758
+    },
+    "right_hip": {
+      "x": 0.46223,
+      "y": 0.57421
+    },
+    "right_elbow": {
+      "x": 0.36293,
+      "y": 0.42598
+    },
+    "right_knee": {
+      "x": 0.45097,
+      "y": 0.73064
+    }
+  },
+  "coordinate_convention": "image"
+}

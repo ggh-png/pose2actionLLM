@@ -31,7 +31,7 @@ def test_file_adapters(name):
 def test_normalize_without_mutation(sample):
     before = copy.deepcopy(sample)
     result = preprocess(sample)
-    assert result["keypoints"]["left_shoulder"]["x"] == pytest.approx(0.4)
+    assert result["keypoints"]["left_shoulder"]["x"] == pytest.approx(0.6)
     assert result["keypoints"]["left_shoulder"]["y"] == pytest.approx(0.28)
     assert sample == before
     assert preprocess(result) == result
@@ -65,7 +65,7 @@ def test_prompt_does_not_leak_labels(sample):
     sample.update(label=3, prediction=1, secret="do not include", id="label-bearing-id")
     payload = json.loads(build_messages(sample)[-1]["content"])
     assert set(payload) == {"keypoints", "features", "coordinate_space", "coordinate_convention"}
-    assert payload["keypoints"]["left_shoulder"]["x"] == pytest.approx(0.4)
+    assert payload["keypoints"]["left_shoulder"]["x"] == pytest.approx(0.6)
     messages = build_messages(sample, [sample])
     assert messages[-2] == {"role": "assistant", "content": "3"}
 

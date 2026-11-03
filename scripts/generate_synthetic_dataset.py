@@ -17,9 +17,9 @@ from pose_llm_classifier.visualization import EDGES, plot_pose  # noqa: E402
 def generate_samples(per_class=25, seed=42):
     """Vary body proportions, limbs, position and scale while preserving labels.
 
-    Seated poses use a schematic oblique view: thighs run mostly horizontally,
-    with no shins observed. Standing poses have mostly vertical thighs.
-    These are illustrative poses, not a physiological or camera simulation.
+    Front, unmirrored camera view: anatomical left appears on image right.
+    Seated knees stay under their respective hips with a shorter projected
+    hip-to-knee segment. These are schematic, not measured camera projections.
     """
     if per_class < 1:
         raise ValueError("per_class must be positive")
@@ -35,8 +35,8 @@ def generate_samples(per_class=25, seed=42):
             hip_width = rng.uniform(0.10, 0.15)
             lean = rng.uniform(-0.035, 0.035)
             points = {}
-            seat_direction = rng.choice((-1, 1))
-            for side, sign in (("left", -1), ("right", 1)):
+            knee_spread = rng.uniform(0.005, 0.035)
+            for side, sign in (("left", 1), ("right", -1)):
                 sx = 0.5 + lean + sign * shoulder_width / 2
                 sy = shoulder_y + rng.uniform(-0.008, 0.008)
                 hx = 0.5 + sign * hip_width / 2
@@ -48,8 +48,9 @@ def generate_samples(per_class=25, seed=42):
                     sy + rng.uniform(-0.10, -0.055) if up else sy + rng.uniform(0.095, 0.14),
                 ]
                 if seated:
-                    kx = hx + seat_direction * rng.uniform(0.15, 0.21)
-                    ky = hip_y + rng.uniform(0.015, 0.055)
+                    # Foreshortened thighs, with only a small outward knee spread.
+                    kx = hx + sign * knee_spread + rng.uniform(-0.004, 0.004)
+                    ky = hip_y + rng.uniform(0.045, 0.10)
                 else:
                     kx = hx + sign * rng.uniform(0.0, 0.025)
                     ky = hip_y + rng.uniform(0.15, 0.18)
@@ -69,6 +70,8 @@ def generate_samples(per_class=25, seed=42):
                     "id": f"synthetic-{label}-{index:03d}",
                     "synthetic": True,
                     "generator_seed": seed,
+                    "generator_version": 2,
+                    "view": "front_unmirrored",
                     "coordinate_space": "normalized",
                     "label": label,
                     "raised_arm": raised,
@@ -111,7 +114,10 @@ def plot_overview(samples, output, title, columns=5):
         ax.set_title(f"{sample['id']} | {sample['raised_arm']}", fontsize=8)
     for ax in list(axes.flat)[len(samples) :]:
         ax.set_visible(False)
-    fig.suptitle(title + "\nSynthetic poses | blue: left, orange: right | y down", fontsize=13)
+    fig.suptitle(
+        title + "\nFront view (unmirrored) | blue: anatomical left, orange: right | y down",
+        fontsize=13,
+    )
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(output, dpi=120)
     fig.clear()
@@ -122,7 +128,7 @@ def main():
     parser.add_argument("--per-class", type=int, default=25)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--output", type=Path, default=Path("data/sample/synthetic_100.jsonl"))
-    parser.add_argument("--output-dir", type=Path, default=Path("results/synthetic_100"))
+    parser.add_argument("--output-dir", type=Path, default=Path("data/sample/synthetic_100"))
     args = parser.parse_args()
     if args.per_class < 1:
         parser.error("--per-class must be positive")
@@ -136,6 +142,7 @@ def main():
         group = [sample for sample in samples if sample["label"] == label]
         folder = args.output_dir / f"{label}_{name}"
         for sample in group:
+            write_json(folder / f"{sample['id']}.json", sample)
             plot_pose(sample, folder / f"{sample['id']}.png", title=sample["id"])
         plot_overview(group, args.output_dir / f"overview_{label}_{name}.png", name)
         print(f"{name}: {len(group)} individual PNGs + overview", flush=True)
@@ -144,9 +151,20 @@ def main():
         {
             "dataset": str(args.output),
             "seed": args.seed,
+            "generator_version": 2,
+            "view": "front_unmirrored",
             "total": len(samples),
             "counts": {LABELS[k]: v for k, v in Counter(s["label"] for s in samples).items()},
-            "note": "Synthetic illustrations only; not real pose data or a performance benchmark.",
+            "samples": [
+                {
+                    "id": sample["id"],
+                    "label": sample["label"],
+                    "json": f"{sample['label']}_{LABELS[sample['label']]}/{sample['id']}.json",
+                    "image": f"{sample['label']}_{LABELS[sample['label']]}/{sample['id']}.png",
+                }
+                for sample in samples
+            ],
+            "note": "Front-view synthetic illustrations only; not measured poses or a performance benchmark.",
         },
     )
     print(f"Dataset: {args.output}\nImages: {args.output_dir}")
