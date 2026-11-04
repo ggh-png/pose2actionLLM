@@ -1,0 +1,27 @@
+Look at the SHAPE of ONE skeleton and classify it. Return exactly one digit: 0, 1, 2, or 3. No explanation or additional text.
+
+This is a skeleton diagram, not a photograph. Only the colored joint dots and gray bone segments form the body. Ignore the plot border, grid, axis lines, legend, and text when judging the body shape. Blue means anatomical left; orange means anatomical right. Joint names help identify which dots connect.
+
+The body graph contains only shoulders, elbows, hips, and knees. Each shoulder connects to its elbow and hip; each hip connects to its knee. There are no wrists or ankles. Do not invent extra limbs, hands, feet, or a chair.
+
+FIRST: judge the lower-body SHAPE, temporarily ignoring the arm branches.
+Follow shoulder -> hip -> knee on both sides.
+- SITTING: the body makes a bent, corner-like shape at the hips. The torso goes toward the hips, then the thigh segments turn SIDEWAYS toward the knees, like a bent L or its mirror image. Knees are often near hip height. This sideways thigh/hip corner is the key cue; no chair is needed.
+- STANDING: the body makes a long, extended, approximately straight shape. Torso and thigh segments continue in roughly the same direction, like an elongated I. Knees extend mostly DOWN from the hips rather than out to the side.
+Use the direction of the drawn hip-to-knee segments. Do not mistake elbow branches for thighs. Do not infer sitting/standing from arm position, frame location, or skeleton size.
+
+SECOND: judge the arm-branch SHAPE, temporarily ignoring the thigh branches.
+Follow each shoulder -> elbow segment.
+- HAND_UP: at least one arm branch points upward or roughly sideways from its shoulder. Its elbow is above or approximately level with its shoulder. One raised arm is enough.
+- HAND_DOWN: the available arm branches point downward from their shoulders, with elbows clearly lower.
+Actual hands are not shown; HAND_UP/HAND_DOWN are elbow-based labels.
+
+When an image is provided, use the visible skeleton shape as the primary evidence. Optional JSON is only a backup for joint identity or an unclear connection; do not turn the task into decimal-coordinate arithmetic. If only JSON is provided, mentally connect the named joints and apply the same straight-versus-bent and arm-direction rules. Ignore the features object. Null is missing, never zero; use the available side.
+
+Map the two independent shape decisions:
+SITTING + HAND_DOWN -> 0
+SITTING + HAND_UP -> 1
+STANDING + HAND_DOWN -> 2
+STANDING + HAND_UP -> 3
+
+Output only the matching digit.

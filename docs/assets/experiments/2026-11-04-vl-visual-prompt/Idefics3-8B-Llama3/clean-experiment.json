@@ -1,0 +1,133 @@
+{
+  "model": "HuggingFaceM4/Idefics3-8B-Llama3",
+  "name": "Idefics3-8B-Llama3",
+  "date_kst": "2026-11-04",
+  "server_command": [
+    "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/.venv-model/bin/vllm",
+    "serve",
+    "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/models/Idefics3-8B-Llama3",
+    "--served-model-name",
+    "HuggingFaceM4/Idefics3-8B-Llama3",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "18083",
+    "--max-model-len",
+    "8192",
+    "--max-num-seqs",
+    "1",
+    "--gpu-memory-utilization",
+    "0.85",
+    "--enforce-eager",
+    "--attention-backend",
+    "TRITON_ATTN",
+    "--mm-encoder-attn-backend",
+    "TORCH_SDPA",
+    "--seed",
+    "0",
+    "--limit-mm-per-prompt",
+    "{\"image\":1,\"video\":0}",
+    "--chat-template-content-format",
+    "openai"
+  ],
+  "conditions": [
+    "png_only",
+    "png_json"
+  ],
+  "run_label": "clean-shape",
+  "prompt": "shared skeleton-shape-first v2; optional frozen override",
+  "prompt_file": null,
+  "image_first": true,
+  "instruction_role": "user",
+  "temperature": 0,
+  "max_tokens": 256,
+  "image_set": "clean",
+  "source_images": "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/results/experiments/2026-11-04-vl-visual-prompt/clean-images",
+  "download": {
+    "repo_id": "HuggingFaceM4/Idefics3-8B-Llama3",
+    "revision": "fddb4ff79181e55a994674777e06cd5456ce3dc3",
+    "distribution": "official upstream repository",
+    "files": [
+      {
+        "name": "README.md",
+        "size": 10026,
+        "sha256": null
+      },
+      {
+        "name": "chat_template.json",
+        "size": 434,
+        "sha256": null
+      },
+      {
+        "name": "config.json",
+        "size": 7185,
+        "sha256": null
+      },
+      {
+        "name": "generation_config.json",
+        "size": 198,
+        "sha256": null
+      },
+      {
+        "name": "model-00001-of-00004.safetensors",
+        "size": 4967932424,
+        "sha256": "ef19d72d25d0040a591043b47be6f46cc05d208eb3f9317581577e3723f5b1fc"
+      },
+      {
+        "name": "model-00002-of-00004.safetensors",
+        "size": 4999803840,
+        "sha256": "8068f285e43b7278553738613a378718de214c2a43d019be1ba81586c0cd62b4"
+      },
+      {
+        "name": "model-00003-of-00004.safetensors",
+        "size": 4915917280,
+        "sha256": "532b89a16785817830280bd198d93200fd1af082dedaa2b650c3c364716cb250"
+      },
+      {
+        "name": "model-00004-of-00004.safetensors",
+        "size": 2040613728,
+        "sha256": "cda6d4ab485b2cbce9dfac23bc028757af9cd75fc715d1396085393ae9768204"
+      },
+      {
+        "name": "model.safetensors.index.json",
+        "size": 70618,
+        "sha256": null
+      },
+      {
+        "name": "preprocessor_config.json",
+        "size": 435,
+        "sha256": null
+      },
+      {
+        "name": "special_tokens_map.json",
+        "size": 951,
+        "sha256": null
+      },
+      {
+        "name": "tokenizer.json",
+        "size": 9086238,
+        "sha256": null
+      },
+      {
+        "name": "tokenizer_config.json",
+        "size": 51725,
+        "sha256": null
+      }
+    ],
+    "verified": true
+  },
+  "server_environment_overrides": {
+    "LD_LIBRARY_PATH": "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/.venv-model/lib/python3.12/site-packages/nvidia/cu13/lib:/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/.venv-model/lib/python3.12/site-packages/nvidia/cudnn/lib:/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/.venv-model/lib/python3.12/site-packages/nvidia/cusparselt/lib:/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/.venv-model/lib/python3.12/site-packages/nvidia/nccl/lib:/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/.venv-model/lib/python3.12/site-packages/nvidia/nvshmem/lib"
+  },
+  "smoke": [
+    {
+      "mode": "png_only",
+      "raw_response": " 2"
+    },
+    {
+      "mode": "png_json",
+      "raw_response": " 1"
+    }
+  ],
+  "server_stopped": true
+}

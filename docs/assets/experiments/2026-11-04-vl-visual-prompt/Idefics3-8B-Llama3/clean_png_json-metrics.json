@@ -1,0 +1,69 @@
+{
+  "backend": "remote",
+  "model": "HuggingFaceM4/Idefics3-8B-Llama3",
+  "is_mock": false,
+  "total": 100,
+  "correct": 36,
+  "failed": 0,
+  "accuracy": 0.36,
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      11,
+      14,
+      0
+    ],
+    [
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      9,
+      16,
+      0
+    ]
+  ],
+  "labels": [
+    "SITTING_HAND_DOWN",
+    "SITTING_HAND_UP",
+    "STANDING_HAND_DOWN",
+    "STANDING_HAND_UP"
+  ],
+  "per_class": {
+    "SITTING_HAND_DOWN": {
+      "precision": 0,
+      "recall_on_valid_predictions": 0.0,
+      "f1_on_valid_predictions": 0,
+      "valid_support": 25
+    },
+    "SITTING_HAND_UP": {
+      "precision": 0.55,
+      "recall_on_valid_predictions": 0.44,
+      "f1_on_valid_predictions": 0.48888888888888893,
+      "valid_support": 25
+    },
+    "STANDING_HAND_DOWN": {
+      "precision": 0.3125,
+      "recall_on_valid_predictions": 1.0,
+      "f1_on_valid_predictions": 0.47619047619047616,
+      "valid_support": 25
+    },
+    "STANDING_HAND_UP": {
+      "precision": 0,
+      "recall_on_valid_predictions": 0.0,
+      "f1_on_valid_predictions": 0,
+      "valid_support": 25
+    }
+  },
+  "mean_latency_seconds": 0.39154609487130076,
+  "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+}

@@ -10,8 +10,10 @@ __pycache__/
 results/
 models/
 checkpoints/
-data/*
-!data/sample/
+# Generated sample data and experiment artifacts
+data/sample/synthetic_100/
+data/sample/synthetic_100.jsonl
+# Rebuild outputs
 build/
 dist/
 site/

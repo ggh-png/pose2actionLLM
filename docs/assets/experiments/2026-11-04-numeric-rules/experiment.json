@@ -1,0 +1,966 @@
+{
+  "started_utc": "2026-11-04T01:13:55.381629+00:00",
+  "dataset_sha256": "c509713c7ded6b41146a4fb2166db6317b2e8b1179d26b4f91155be211e1a7cb",
+  "prompt_sha256": "0f5e24ac87ba65cc29334067278dc34b9945a39155d47ff085322d9353588412",
+  "temperature": 0,
+  "max_tokens": 256,
+  "thinking": false,
+  "input": "normalized keypoints plus existing features; unchanged payload",
+  "models": [
+    {
+      "name": "Qwen3-8B",
+      "command": [
+        "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/.venv-model/bin/vllm",
+        "serve",
+        "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/models/Qwen3-8B",
+        "--served-model-name",
+        "Qwen/Qwen3-8B",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "18081",
+        "--max-model-len",
+        "4096",
+        "--max-num-seqs",
+        "2",
+        "--gpu-memory-utilization",
+        "0.55",
+        "--enforce-eager",
+        "--attention-backend",
+        "TRITON_ATTN",
+        "--seed",
+        "0",
+        "--default-chat-template-kwargs",
+        "{\"enable_thinking\":false}"
+      ],
+      "download": {
+        "repo_id": "Qwen/Qwen3-8B",
+        "revision": "b968826d9c46dd6066d109eabc6255188de91218"
+      },
+      "metrics": {
+        "backend": "remote",
+        "model": "Qwen/Qwen3-8B",
+        "is_mock": false,
+        "total": 100,
+        "correct": 37,
+        "failed": 0,
+        "accuracy": 0.37,
+        "confusion_matrix": [
+          [
+            18,
+            0,
+            7,
+            0
+          ],
+          [
+            7,
+            3,
+            8,
+            7
+          ],
+          [
+            20,
+            0,
+            5,
+            0
+          ],
+          [
+            1,
+            11,
+            2,
+            11
+          ]
+        ],
+        "labels": [
+          "SITTING_HAND_DOWN",
+          "SITTING_HAND_UP",
+          "STANDING_HAND_DOWN",
+          "STANDING_HAND_UP"
+        ],
+        "per_class": {
+          "SITTING_HAND_DOWN": {
+            "precision": 0.391304347826087,
+            "recall_on_valid_predictions": 0.72,
+            "f1_on_valid_predictions": 0.5070422535211268,
+            "valid_support": 25
+          },
+          "SITTING_HAND_UP": {
+            "precision": 0.21428571428571427,
+            "recall_on_valid_predictions": 0.12,
+            "f1_on_valid_predictions": 0.15384615384615383,
+            "valid_support": 25
+          },
+          "STANDING_HAND_DOWN": {
+            "precision": 0.22727272727272727,
+            "recall_on_valid_predictions": 0.2,
+            "f1_on_valid_predictions": 0.21276595744680854,
+            "valid_support": 25
+          },
+          "STANDING_HAND_UP": {
+            "precision": 0.6111111111111112,
+            "recall_on_valid_predictions": 0.44,
+            "f1_on_valid_predictions": 0.5116279069767442,
+            "valid_support": 25
+          }
+        },
+        "mean_latency_seconds": 0.04744162565853913,
+        "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+      },
+      "posture_correct": 46,
+      "arms_correct": 82
+    },
+    {
+      "name": "Qwen3-4B",
+      "command": [
+        "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/.venv-model/bin/vllm",
+        "serve",
+        "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/models/Qwen3-4B",
+        "--served-model-name",
+        "Qwen/Qwen3-4B",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "18081",
+        "--max-model-len",
+        "4096",
+        "--max-num-seqs",
+        "2",
+        "--gpu-memory-utilization",
+        "0.45",
+        "--enforce-eager",
+        "--attention-backend",
+        "TRITON_ATTN",
+        "--seed",
+        "0",
+        "--default-chat-template-kwargs",
+        "{\"enable_thinking\":false}"
+      ],
+      "download": {
+        "_id": "680da769038897aa905586a7",
+        "id": "Qwen/Qwen3-4B",
+        "private": false,
+        "pipeline_tag": "text-generation",
+        "library_name": "transformers",
+        "tags": [
+          "transformers",
+          "safetensors",
+          "qwen3",
+          "text-generation",
+          "conversational",
+          "arxiv:2309.00071",
+          "arxiv:2505.09388",
+          "base_model:Qwen/Qwen3-4B-Base",
+          "base_model:finetune:Qwen/Qwen3-4B-Base",
+          "license:apache-2.0",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "deploy:sagemaker",
+          "deploy:azure",
+          "region:us"
+        ],
+        "downloads": 8417695,
+        "likes": 780,
+        "modelId": "Qwen/Qwen3-4B",
+        "author": "Qwen",
+        "sha": "1cfa9a7208912126459214e8b04321603b3df60c",
+        "lastModified": "2025-07-26T03:46:39.000Z",
+        "gated": false,
+        "disabled": false,
+        "widgetData": [
+          {
+            "text": "Hi, what can you help me with?"
+          },
+          {
+            "text": "What is 84 * 3 / 2?"
+          },
+          {
+            "text": "Tell me an interesting fact about the universe!"
+          },
+          {
+            "text": "Explain quantum computing in simple terms."
+          }
+        ],
+        "model-index": null,
+        "config": {
+          "architectures": [
+            "Qwen3ForCausalLM"
+          ],
+          "model_type": "qwen3",
+          "tokenizer_config": {
+            "bos_token": null,
+            "eos_token": "<|im_end|>",
+            "unk_token": null,
+            "pad_token": "<|endoftext|>",
+            "chat_template": "{%- if tools %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if messages[0].role == 'system' %}\n        {{- messages[0].content + '\\n\\n' }}\n    {%- endif %}\n    {{- \"# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\n{%- else %}\n    {%- if messages[0].role == 'system' %}\n        {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for message in messages[::-1] %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- if ns.multi_step_tool and message.role == \"user\" and message.content is string and not(message.content.startswith('<tool_response>') and message.content.endswith('</tool_response>')) %}\n        {%- set ns.multi_step_tool = false %}\n        {%- set ns.last_query_index = index %}\n    {%- endif %}\n{%- endfor %}\n{%- for message in messages %}\n    {%- if message.content is string %}\n        {%- set content = message.content %}\n    {%- else %}\n        {%- set content = '' %}\n    {%- endif %}\n    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) %}\n        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is string %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- else %}\n            {%- if '</think>' in content %}\n                {%- set reasoning_content = content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\n                {%- set content = content.split('</think>')[-1].lstrip('\\n') %}\n            {%- endif %}\n        {%- endif %}\n        {%- if loop.index0 > ns.last_query_index %}\n            {%- if loop.last or (not loop.last and reasoning_content) %}\n                {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content.strip('\\n') + '\\n</think>\\n\\n' + content.lstrip('\\n') }}\n            {%- else %}\n                {{- '<|im_start|>' + message.role + '\\n' + content }}\n            {%- endif %}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if (loop.first and content) or (not loop.first) %}\n                    {{- '\\n' }}\n                {%- endif %}\n                {%- if tool_call.function %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {{- '<tool_call>\\n{\"name\": \"' }}\n                {{- tool_call.name }}\n                {{- '\", \"arguments\": ' }}\n                {%- if tool_call.arguments is string %}\n                    {{- tool_call.arguments }}\n                {%- else %}\n                    {{- tool_call.arguments | tojson }}\n                {%- endif %}\n                {{- '}\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.first or (messages[loop.index0 - 1].role != \"tool\") %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content }}\n        {{- '\\n</tool_response>' }}\n        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is false %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- endif %}\n{%- endif %}"
+          }
+        },
+        "cardData": {
+          "library_name": "transformers",
+          "license": "apache-2.0",
+          "license_link": "https://huggingface.co/Qwen/Qwen3-4B/blob/main/LICENSE",
+          "pipeline_tag": "text-generation",
+          "base_model": [
+            "Qwen/Qwen3-4B-Base"
+          ]
+        },
+        "transformersInfo": {
+          "auto_model": "AutoModelForCausalLM",
+          "pipeline_tag": "text-generation",
+          "processor": "AutoTokenizer"
+        },
+        "siblings": [
+          {
+            "rfilename": ".gitattributes",
+            "blobId": "52373fe24473b1aa44333d318f578ae6bf04b49b",
+            "size": 1570
+          },
+          {
+            "rfilename": "LICENSE",
+            "blobId": "6634c8cc3133b3848ec74b9f275acaaa1ea618ab",
+            "size": 11343
+          },
+          {
+            "rfilename": "README.md",
+            "blobId": "2de5ee7eee214bb55ea33ec7505c5838a7adf7f6",
+            "size": 16857
+          },
+          {
+            "rfilename": "config.json",
+            "blobId": "e49eccdc32f36da9c09cfa0e737084f9e0105e5e",
+            "size": 726
+          },
+          {
+            "rfilename": "generation_config.json",
+            "blobId": "20a8a9156fc8c3f25295ca067f61fdf120d517c5",
+            "size": 239
+          },
+          {
+            "rfilename": "merges.txt",
+            "blobId": "31349551d90c7606f325fe0f11bbb8bd5fa0d7c7",
+            "size": 1671853
+          },
+          {
+            "rfilename": "model-00001-of-00003.safetensors",
+            "blobId": "546625baab99f4de2b975842100c119fec83919f",
+            "size": 3957900840,
+            "lfs": {
+              "sha256": "328a91d3122359d5547f9d79521205bc0a46e1f79a792dfe650e99fc2d651223",
+              "size": 3957900840,
+              "pointerSize": 135
+            }
+          },
+          {
+            "rfilename": "model-00002-of-00003.safetensors",
+            "blobId": "3e4d29aad0be87c083e078b50765cd056e793c51",
+            "size": 3987450520,
+            "lfs": {
+              "sha256": "6cd087b316306a68c562436b5492edbcf6e16c6dba3a1308279caa5a58e21ca5",
+              "size": 3987450520,
+              "pointerSize": 135
+            }
+          },
+          {
+            "rfilename": "model-00003-of-00003.safetensors",
+            "blobId": "79fb0e18fca00d3a2ab04e5b732a2a740539b913",
+            "size": 99630640,
+            "lfs": {
+              "sha256": "e4bf436957184f4eeb86a80e9db394503f1f56446b2e6b7edeac5b81470f4ca1",
+              "size": 99630640,
+              "pointerSize": 133
+            }
+          },
+          {
+            "rfilename": "model.safetensors.index.json",
+            "blobId": "95c0a0059df040d75dc6c396b174382cf61d2f91",
+            "size": 32819
+          },
+          {
+            "rfilename": "tokenizer.json",
+            "blobId": "cd71f61a15a522601badb3dc960d800d9cb3766c",
+            "size": 11422654,
+            "lfs": {
+              "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+              "size": 11422654,
+              "pointerSize": 133
+            }
+          },
+          {
+            "rfilename": "tokenizer_config.json",
+            "blobId": "417d038a63fa3de29cfde265caedae14d1a58d92",
+            "size": 9732
+          },
+          {
+            "rfilename": "vocab.json",
+            "blobId": "4783fe10ac3adce15ac8f358ef5462739852c569",
+            "size": 2776833
+          }
+        ],
+        "spaces": [
+          "mrfakename/yue2-3b",
+          "aizip-dev/SLM-RAG-Arena",
+          "BIGJUTT/model-pulse",
+          "HTBris/zerogpu-sdxlTrainer",
+          "Qwen/Qwen3-Demo",
+          "pliny-the-prompter/obliteratus",
+          "vrishv/graphics-studio",
+          "Infergauge-load/llm-performance-and-load-weekly-runs",
+          "maubilli/best-local-model",
+          "launch-calcium/zerogpu-sdxlTrainer2-py311",
+          "embedl/hfviewer",
+          "tomg-group-umd/lm-watermarking",
+          "artificialguybr/qwen-chat-demo",
+          "whitecircle/circle-guard-bench",
+          "aiqtech/LLM-Token-Visual",
+          "AlexWortega/activation-oracle",
+          "nyamberekimeu/Qwen3-Token-Counter",
+          "parchiev/SIRIN",
+          "artificialguybr/CanIRunThisLLM",
+          "VIDraft/Qwen3",
+          "filbench/filbench-leaderboard",
+          "Mehdisabori66/yue2-3b",
+          "VIDraft/Qwen3-4B",
+          "rahul7star/Z-Image-Turbo-GGUF-Q4_K_M",
+          "stvident/NetOps",
+          "emanforhelp/model-pulse",
+          "malvin-ai/light-ai-video-generator",
+          "qgallouedec/finetune-studio",
+          "Agents-MCP-Hackathon/Gmail-AI-Agent",
+          "dvpearl/REFRAME",
+          "TTimur/OpenLLMKyrgyzLeaderboard_v0.1",
+          "rahul7star/Image2Video",
+          "omarkamali/llm-scope",
+          "jaymanr/dataset-generator",
+          "Italianhype/Blum",
+          "osolmaz/leaderboard",
+          "levibrg/yue2-3b",
+          "yzhuang/MixtureOfInputs",
+          "ErenAta00/turkish-slm-leaderboard",
+          "dumbordumber/obliteratus",
+          "Kodacoda/obliteratus",
+          "akashkathole/reconcile_gst2b_env",
+          "build-small-hackathon/repair-guy",
+          "build-small-hackathon/MADREAM",
+          "build-small-hackathon/analyst-buddy",
+          "build-small-hackathon/tutordesk-ai",
+          "sajitkun125/inkference-app",
+          "hugging-apps/enoki-hallucination-detector",
+          "shinichi-205/yue2-full-cover",
+          "x1205x62108/yue2-3b",
+          "Agents-MCP-Hackathon/CSV-2-SQLAgent",
+          "tuanhqv123/Qwen-Qwen3-1.7B",
+          "swechaap/Telugu_Vocab_Evaluation",
+          "asifHuggingFace/webui",
+          "Shabah2000/Qwen44-Demo",
+          "BCappuccina50/Cedarglow-AI-Consejera",
+          "BCappuccina50/Appleleaf",
+          "BCappuccina50/GraziaAi",
+          "fagun18/fagun-browser-testing",
+          "MCP-1st-Birthday/cx_ai_agent",
+          "muzakkirhussain011/cx_ai_agent_v1",
+          "dromero14521/obliteratus",
+          "rbinrs/obliteratus",
+          "kicfk/obliteratus",
+          "vfven/test",
+          "aaahmet/obliteratus",
+          "Deadmon/obliteratus",
+          "Ngixdev/obliteratus",
+          "Heartsync/MARL-mobile-backup",
+          "ggtejas/log-anomaly-env",
+          "musharraf7/esctr-environment",
+          "bpHigh/carrom_rl_env",
+          "daniel8919/limbic-reasoning-agent",
+          "FluffyAIcode/LLM-KA-Cache-Compress",
+          "chansung/hf-open-source-ai-lab",
+          "abgunaydin/zero-tvm",
+          "build-small-hackathon/smol-town",
+          "build-small-hackathon/etl-failure-investigator",
+          "debajyotidasgupta/eu-halt-demo",
+          "build-small-hackathon/small-hackathon-trainer",
+          "allenai/molmomotion",
+          "sajitkun125/inkference",
+          "rahul7star/SDNQ-Playbook",
+          "RavichandranJ/obliteratus",
+          "S-Dreamer/obliteratus",
+          "AlanaSky/asgaard",
+          "marchkamal51/obliteratus",
+          "Abdulmohsena/dynamic-steering",
+          "maufadel/wattgpu",
+          "srikarjy025/concordia-colony",
+          "FiditeNemini/yue2-3b",
+          "SohelK/voice-mom",
+          "Infergauge-load/llm-performance-and-load",
+          "AngeloUNIMI/document_exam_trainer",
+          "Gokul04112003/agentic-ai-assistant",
+          "ibcy-labs/ibcy-ai",
+          "Genrius-AI/llm-vram-calculator",
+          "Mrlongpro/autosubs",
+          "IamRulo/Final_Assignment_Template",
+          "KWRegan/LIFgen"
+        ],
+        "createdAt": "2025-04-27T03:41:29.000Z",
+        "safetensors": {
+          "parameters": {
+            "BF16": 4022468096
+          },
+          "total": 4022468096
+        },
+        "usedStorage": 8056404654
+      },
+      "metrics": {
+        "backend": "remote",
+        "model": "Qwen/Qwen3-4B",
+        "is_mock": false,
+        "total": 100,
+        "correct": 25,
+        "failed": 0,
+        "accuracy": 0.25,
+        "confusion_matrix": [
+          [
+            0,
+            0,
+            0,
+            25
+          ],
+          [
+            0,
+            0,
+            0,
+            25
+          ],
+          [
+            0,
+            0,
+            0,
+            25
+          ],
+          [
+            0,
+            0,
+            0,
+            25
+          ]
+        ],
+        "labels": [
+          "SITTING_HAND_DOWN",
+          "SITTING_HAND_UP",
+          "STANDING_HAND_DOWN",
+          "STANDING_HAND_UP"
+        ],
+        "per_class": {
+          "SITTING_HAND_DOWN": {
+            "precision": 0,
+            "recall_on_valid_predictions": 0.0,
+            "f1_on_valid_predictions": 0,
+            "valid_support": 25
+          },
+          "SITTING_HAND_UP": {
+            "precision": 0,
+            "recall_on_valid_predictions": 0.0,
+            "f1_on_valid_predictions": 0,
+            "valid_support": 25
+          },
+          "STANDING_HAND_DOWN": {
+            "precision": 0,
+            "recall_on_valid_predictions": 0.0,
+            "f1_on_valid_predictions": 0,
+            "valid_support": 25
+          },
+          "STANDING_HAND_UP": {
+            "precision": 0.25,
+            "recall_on_valid_predictions": 1.0,
+            "f1_on_valid_predictions": 0.4,
+            "valid_support": 25
+          }
+        },
+        "mean_latency_seconds": 0.03268982045847224,
+        "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+      },
+      "posture_correct": 50,
+      "arms_correct": 50
+    },
+    {
+      "name": "Llama-3.1-8B-Instruct",
+      "command": [
+        "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/.venv-model/bin/vllm",
+        "serve",
+        "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/models/Llama-3.1-8B-Instruct",
+        "--served-model-name",
+        "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "18081",
+        "--max-model-len",
+        "4096",
+        "--max-num-seqs",
+        "2",
+        "--gpu-memory-utilization",
+        "0.55",
+        "--enforce-eager",
+        "--attention-backend",
+        "TRITON_ATTN",
+        "--seed",
+        "0",
+        "--default-chat-template-kwargs",
+        "{\"enable_thinking\":false}"
+      ],
+      "download": {
+        "repo_id": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "revision": "d10aef7999a2b5ba950ab3974312feeedbfe0b77",
+        "original_model": "meta-llama/Llama-3.1-8B-Instruct",
+        "distribution": "NousResearch public distribution; official repository requires gated access",
+        "files": [
+          {
+            "name": "LICENSE",
+            "size": 7627,
+            "sha256": null
+          },
+          {
+            "name": "README.md",
+            "size": 41844,
+            "sha256": null
+          },
+          {
+            "name": "USE_POLICY.md",
+            "size": 4691,
+            "sha256": null
+          },
+          {
+            "name": "config.json",
+            "size": 855,
+            "sha256": null
+          },
+          {
+            "name": "generation_config.json",
+            "size": 184,
+            "sha256": null
+          },
+          {
+            "name": "model-00001-of-00004.safetensors",
+            "size": 4976698672,
+            "sha256": "2b1879f356aed350030bb40eb45ad362c89d9891096f79a3ab323d3ba5607668"
+          },
+          {
+            "name": "model-00002-of-00004.safetensors",
+            "size": 4999802720,
+            "sha256": "09d433f650646834a83c580877bd60c6d1f88f7755305c12576b5c7058f9af15"
+          },
+          {
+            "name": "model-00003-of-00004.safetensors",
+            "size": 4915916176,
+            "sha256": "fc1cdddd6bfa91128d6e94ee73d0ce62bfcdb7af29e978ddcab30c66ae9ea7fa"
+          },
+          {
+            "name": "model-00004-of-00004.safetensors",
+            "size": 1168138808,
+            "sha256": "92ecfe1a2414458b4821ac8c13cf8cb70aed66b5eea8dc5ad9eeb4ff309d6d7b"
+          },
+          {
+            "name": "model.safetensors.index.json",
+            "size": 23950,
+            "sha256": null
+          },
+          {
+            "name": "special_tokens_map.json",
+            "size": 296,
+            "sha256": null
+          },
+          {
+            "name": "tokenizer.json",
+            "size": 9085657,
+            "sha256": null
+          },
+          {
+            "name": "tokenizer_config.json",
+            "size": 50870,
+            "sha256": null
+          }
+        ],
+        "verified": true
+      },
+      "metrics": {
+        "backend": "remote",
+        "model": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "is_mock": false,
+        "total": 100,
+        "correct": 25,
+        "failed": 1,
+        "accuracy": 0.25,
+        "confusion_matrix": [
+          [
+            0,
+            24,
+            0,
+            0
+          ],
+          [
+            0,
+            25,
+            0,
+            0
+          ],
+          [
+            0,
+            25,
+            0,
+            0
+          ],
+          [
+            0,
+            25,
+            0,
+            0
+          ]
+        ],
+        "labels": [
+          "SITTING_HAND_DOWN",
+          "SITTING_HAND_UP",
+          "STANDING_HAND_DOWN",
+          "STANDING_HAND_UP"
+        ],
+        "per_class": {
+          "SITTING_HAND_DOWN": {
+            "precision": 0,
+            "recall_on_valid_predictions": 0.0,
+            "f1_on_valid_predictions": 0,
+            "valid_support": 24
+          },
+          "SITTING_HAND_UP": {
+            "precision": 0.25252525252525254,
+            "recall_on_valid_predictions": 1.0,
+            "f1_on_valid_predictions": 0.40322580645161293,
+            "valid_support": 25
+          },
+          "STANDING_HAND_DOWN": {
+            "precision": 0,
+            "recall_on_valid_predictions": 0.0,
+            "f1_on_valid_predictions": 0,
+            "valid_support": 25
+          },
+          "STANDING_HAND_UP": {
+            "precision": 0,
+            "recall_on_valid_predictions": 0.0,
+            "f1_on_valid_predictions": 0,
+            "valid_support": 25
+          }
+        },
+        "mean_latency_seconds": 0.06429270886932499,
+        "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+      },
+      "posture_correct": 49,
+      "arms_correct": 50
+    }
+  ],
+  "reference": {
+    "backend": "deterministic",
+    "model": "numeric-rule-reference",
+    "is_mock": false,
+    "total": 100,
+    "correct": 100,
+    "failed": 0,
+    "accuracy": 1.0,
+    "confusion_matrix": [
+      [
+        25,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        25,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        25,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        25
+      ]
+    ],
+    "labels": [
+      "SITTING_HAND_DOWN",
+      "SITTING_HAND_UP",
+      "STANDING_HAND_DOWN",
+      "STANDING_HAND_UP"
+    ],
+    "per_class": {
+      "SITTING_HAND_DOWN": {
+        "precision": 1.0,
+        "recall_on_valid_predictions": 1.0,
+        "f1_on_valid_predictions": 1.0,
+        "valid_support": 25
+      },
+      "SITTING_HAND_UP": {
+        "precision": 1.0,
+        "recall_on_valid_predictions": 1.0,
+        "f1_on_valid_predictions": 1.0,
+        "valid_support": 25
+      },
+      "STANDING_HAND_DOWN": {
+        "precision": 1.0,
+        "recall_on_valid_predictions": 1.0,
+        "f1_on_valid_predictions": 1.0,
+        "valid_support": 25
+      },
+      "STANDING_HAND_UP": {
+        "precision": 1.0,
+        "recall_on_valid_predictions": 1.0,
+        "f1_on_valid_predictions": 1.0,
+        "valid_support": 25
+      }
+    },
+    "mean_latency_seconds": 1.3297810219228268e-05,
+    "note": "Deterministic Python geometry, not an LLM. Same thresholds as system prompt."
+  },
+  "rule_design": "fixed 45-degree torso-to-thigh boundary; fixed 0.05 torso-length elbow tolerance; not tuned against outcomes",
+  "few_shot_examples": 0,
+  "evaluation_note": "reused synthetic development set; not an independent test of generalization",
+  "previous_metrics": {
+    "Qwen3-8B": {
+      "backend": "remote",
+      "model": "Qwen/Qwen3-8B",
+      "is_mock": false,
+      "total": 100,
+      "correct": 33,
+      "failed": 0,
+      "accuracy": 0.33,
+      "confusion_matrix": [
+        [
+          25,
+          0,
+          0,
+          0
+        ],
+        [
+          17,
+          0,
+          0,
+          8
+        ],
+        [
+          25,
+          0,
+          0,
+          0
+        ],
+        [
+          17,
+          0,
+          0,
+          8
+        ]
+      ],
+      "labels": [
+        "SITTING_HAND_DOWN",
+        "SITTING_HAND_UP",
+        "STANDING_HAND_DOWN",
+        "STANDING_HAND_UP"
+      ],
+      "per_class": {
+        "SITTING_HAND_DOWN": {
+          "precision": 0.2976190476190476,
+          "recall_on_valid_predictions": 1.0,
+          "f1_on_valid_predictions": 0.4587155963302752,
+          "valid_support": 25
+        },
+        "SITTING_HAND_UP": {
+          "precision": 0,
+          "recall_on_valid_predictions": 0.0,
+          "f1_on_valid_predictions": 0,
+          "valid_support": 25
+        },
+        "STANDING_HAND_DOWN": {
+          "precision": 0,
+          "recall_on_valid_predictions": 0.0,
+          "f1_on_valid_predictions": 0,
+          "valid_support": 25
+        },
+        "STANDING_HAND_UP": {
+          "precision": 0.5,
+          "recall_on_valid_predictions": 0.32,
+          "f1_on_valid_predictions": 0.39024390243902435,
+          "valid_support": 25
+        }
+      },
+      "mean_latency_seconds": 0.04688395495089935,
+      "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+    },
+    "Qwen3-4B": {
+      "backend": "remote",
+      "model": "Qwen/Qwen3-4B",
+      "is_mock": false,
+      "total": 100,
+      "correct": 27,
+      "failed": 0,
+      "accuracy": 0.27,
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          2,
+          23
+        ],
+        [
+          0,
+          7,
+          2,
+          16
+        ],
+        [
+          0,
+          0,
+          2,
+          23
+        ],
+        [
+          0,
+          7,
+          0,
+          18
+        ]
+      ],
+      "labels": [
+        "SITTING_HAND_DOWN",
+        "SITTING_HAND_UP",
+        "STANDING_HAND_DOWN",
+        "STANDING_HAND_UP"
+      ],
+      "per_class": {
+        "SITTING_HAND_DOWN": {
+          "precision": 0,
+          "recall_on_valid_predictions": 0.0,
+          "f1_on_valid_predictions": 0,
+          "valid_support": 25
+        },
+        "SITTING_HAND_UP": {
+          "precision": 0.5,
+          "recall_on_valid_predictions": 0.28,
+          "f1_on_valid_predictions": 0.358974358974359,
+          "valid_support": 25
+        },
+        "STANDING_HAND_DOWN": {
+          "precision": 0.3333333333333333,
+          "recall_on_valid_predictions": 0.08,
+          "f1_on_valid_predictions": 0.12903225806451613,
+          "valid_support": 25
+        },
+        "STANDING_HAND_UP": {
+          "precision": 0.225,
+          "recall_on_valid_predictions": 0.72,
+          "f1_on_valid_predictions": 0.34285714285714286,
+          "valid_support": 25
+        }
+      },
+      "mean_latency_seconds": 0.03237194900924806,
+      "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+    },
+    "Llama-3.1-8B-Instruct": {
+      "backend": "remote",
+      "model": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+      "is_mock": false,
+      "total": 100,
+      "correct": 25,
+      "failed": 0,
+      "accuracy": 0.25,
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          25,
+          0
+        ],
+        [
+          0,
+          0,
+          25,
+          0
+        ],
+        [
+          0,
+          0,
+          25,
+          0
+        ],
+        [
+          0,
+          0,
+          25,
+          0
+        ]
+      ],
+      "labels": [
+        "SITTING_HAND_DOWN",
+        "SITTING_HAND_UP",
+        "STANDING_HAND_DOWN",
+        "STANDING_HAND_UP"
+      ],
+      "per_class": {
+        "SITTING_HAND_DOWN": {
+          "precision": 0,
+          "recall_on_valid_predictions": 0.0,
+          "f1_on_valid_predictions": 0,
+          "valid_support": 25
+        },
+        "SITTING_HAND_UP": {
+          "precision": 0,
+          "recall_on_valid_predictions": 0.0,
+          "f1_on_valid_predictions": 0,
+          "valid_support": 25
+        },
+        "STANDING_HAND_DOWN": {
+          "precision": 0.25,
+          "recall_on_valid_predictions": 1.0,
+          "f1_on_valid_predictions": 0.4,
+          "valid_support": 25
+        },
+        "STANDING_HAND_UP": {
+          "precision": 0,
+          "recall_on_valid_predictions": 0.0,
+          "f1_on_valid_predictions": 0,
+          "valid_support": 25
+        }
+      },
+      "mean_latency_seconds": 0.0396227310494578,
+      "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+    }
+  },
+  "date_kst": "2026-11-04",
+  "code_sha256": {
+    "src/pose_llm_classifier/__init__.py": "76266afb30a95785f246c4746f4af59bc4b18f5c5886b8d06429467020bce2b1",
+    "src/pose_llm_classifier/inference.py": "092566315eb471f97f806c9172ffbc62326e88e4a3075939d8cd310c4524c9a0",
+    "src/pose_llm_classifier/features.py": "e7df77113f2b2b7174481d4e1a31d1b64e06683624efda4700cffe18cc77d096",
+    "src/pose_llm_classifier/rule_reference.py": "8fe09dca2c9455ceeb1e2c0aec17350a5e5d7bbcaf369e06aeac211aaa857d1e",
+    "src/pose_llm_classifier/data.py": "1c52caf0a3d48a1c01c1a12f0528eb97174d62329dd4e7678e3fd37757e206bc",
+    "src/pose_llm_classifier/preprocessing.py": "7c54f0ec752552a1f369a48bbe00d23cf1fc8e7b6c4176ebaf563f157dd4421a",
+    "src/pose_llm_classifier/visualization.py": "811a8e527a79c3ad75ca3b43e10cf31170b44978f979bb7e4279a17cf4e163e5",
+    "src/pose_llm_classifier/cli.py": "8937e2b4ecce44781e1c0c2ed598253145b883f610fb82836aff22f13a9e6fab",
+    "src/pose_llm_classifier/evaluation.py": "7acc08923c0b80797adda0a9e7c8209947804a2ed90a6b6da8858e83d1d8d307",
+    "src/pose_llm_classifier/api.py": "3bc27a72829230fa220dc6b6416a439078a0d5abffb783f532a741702c6df4be"
+  },
+  "code_base_revision": "f9ee48720136e4e197acb6f8e6625807bcf9b38b",
+  "working_tree_has_preexisting_changes": true,
+  "environment": {
+    "python": "3.12.3",
+    "vllm": "0.33.0",
+    "torch": "2.14.0+cu130",
+    "cuda_runtime": "13.0",
+    "nvidia_driver": "595.91.07",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "dtype": "bfloat16",
+    "quantization": null
+  },
+  "gpu_sharing": "No other compute jobs observed during this run; previous run shared GPU.",
+  "validation": "42 tests passed; Ruff passed; 100 samples/model, identical inputs and prompt, recomputed confusion matrices and label-free request payloads verified.",
+  "server_stopped_after_evaluation": true,
+  "google_doc_url": "https://docs.google.com/document/d/1Qk312hVzzQu0xHE2cM2qNIESz5ogQY2mYUT6HoHptak",
+  "google_doc_tab_id": "t.apxwh0oi0tod",
+  "google_doc_readback": "7 native tables and exact prompt verified; previous tab preserved"
+}

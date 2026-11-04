@@ -1,0 +1,287 @@
+{
+  "model": "Qwen/Qwen3-VL-8B-Instruct",
+  "server_command": [
+    "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/.venv-model/bin/vllm",
+    "serve",
+    "/home/ircgroup1/rwh_lab/pose2actionLLM-isolated/models/Qwen3-VL-8B-Instruct",
+    "--served-model-name",
+    "Qwen/Qwen3-VL-8B-Instruct",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "18082",
+    "--max-model-len",
+    "4096",
+    "--max-num-seqs",
+    "2",
+    "--gpu-memory-utilization",
+    "0.80",
+    "--enforce-eager",
+    "--attention-backend",
+    "TRITON_ATTN",
+    "--mm-encoder-attn-backend",
+    "TORCH_SDPA",
+    "--seed",
+    "0",
+    "--limit-mm-per-prompt",
+    "{\"image\":1,\"video\":0}",
+    "--mm-processor-kwargs",
+    "{\"min_pixels\":65536,\"max_pixels\":401408}"
+  ],
+  "date_kst": "2026-11-04",
+  "visualization_review": "Agent inspected label-free inputs 0000,0025,0050,0097; no class or ID text.",
+  "conditions": [
+    "json_only",
+    "png_json"
+  ],
+  "temperature": 0,
+  "max_tokens": 256,
+  "prompt": "Same vision-aware numeric rules for both conditions; only image part differs.",
+  "download": {
+    "repo_id": "Qwen/Qwen3-VL-8B-Instruct",
+    "revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "distribution": "official Qwen repository",
+    "files": [
+      {
+        "name": "README.md",
+        "size": 7133,
+        "sha256": null
+      },
+      {
+        "name": "chat_template.json",
+        "size": 5499,
+        "sha256": null
+      },
+      {
+        "name": "config.json",
+        "size": 1474,
+        "sha256": null
+      },
+      {
+        "name": "generation_config.json",
+        "size": 269,
+        "sha256": null
+      },
+      {
+        "name": "merges.txt",
+        "size": 1671839,
+        "sha256": null
+      },
+      {
+        "name": "model-00001-of-00004.safetensors",
+        "size": 4902275944,
+        "sha256": "d5d0aef0eb170fc7453a296c43c0849a56f510555d3588e4fd662bb35490aefa"
+      },
+      {
+        "name": "model-00002-of-00004.safetensors",
+        "size": 4915962496,
+        "sha256": "8be88fb5501e4d5719a6d4cc212e6a13480330e74f3e8c77daa1a68f199106b5"
+      },
+      {
+        "name": "model-00003-of-00004.safetensors",
+        "size": 4999831048,
+        "sha256": "83de00eafe6e0d57ccd009dbcf71c9974d74df2f016c27afb7e95aafd16b2192"
+      },
+      {
+        "name": "model-00004-of-00004.safetensors",
+        "size": 2716270024,
+        "sha256": "0a88b98e9f96270973f567e6a2c103ede6ccdf915ca3075e21c755604d0377a5"
+      },
+      {
+        "name": "model.safetensors.index.json",
+        "size": 67759,
+        "sha256": null
+      },
+      {
+        "name": "preprocessor_config.json",
+        "size": 390,
+        "sha256": null
+      },
+      {
+        "name": "tokenizer.json",
+        "size": 7032403,
+        "sha256": null
+      },
+      {
+        "name": "tokenizer_config.json",
+        "size": 10868,
+        "sha256": null
+      },
+      {
+        "name": "video_preprocessor_config.json",
+        "size": 385,
+        "sha256": null
+      },
+      {
+        "name": "vocab.json",
+        "size": 2776833,
+        "sha256": null
+      }
+    ],
+    "verified": true
+  },
+  "image_smoke": {
+    "prediction": 3,
+    "raw_response": "3"
+  },
+  "server_stopped": true,
+  "metrics": {
+    "json_only": {
+      "backend": "remote",
+      "model": "Qwen/Qwen3-VL-8B-Instruct",
+      "is_mock": false,
+      "total": 100,
+      "correct": 42,
+      "failed": 0,
+      "accuracy": 0.42,
+      "confusion_matrix": [
+        [
+          3,
+          0,
+          19,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          25
+        ],
+        [
+          3,
+          0,
+          15,
+          7
+        ],
+        [
+          0,
+          1,
+          0,
+          24
+        ]
+      ],
+      "labels": [
+        "SITTING_HAND_DOWN",
+        "SITTING_HAND_UP",
+        "STANDING_HAND_DOWN",
+        "STANDING_HAND_UP"
+      ],
+      "per_class": {
+        "SITTING_HAND_DOWN": {
+          "precision": 0.5,
+          "recall_on_valid_predictions": 0.12,
+          "f1_on_valid_predictions": 0.1935483870967742,
+          "valid_support": 25
+        },
+        "SITTING_HAND_UP": {
+          "precision": 0.0,
+          "recall_on_valid_predictions": 0.0,
+          "f1_on_valid_predictions": 0,
+          "valid_support": 25
+        },
+        "STANDING_HAND_DOWN": {
+          "precision": 0.4411764705882353,
+          "recall_on_valid_predictions": 0.6,
+          "f1_on_valid_predictions": 0.5084745762711865,
+          "valid_support": 25
+        },
+        "STANDING_HAND_UP": {
+          "precision": 0.4067796610169492,
+          "recall_on_valid_predictions": 0.96,
+          "f1_on_valid_predictions": 0.5714285714285714,
+          "valid_support": 25
+        }
+      },
+      "mean_latency_seconds": 0.047703273788793014,
+      "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+    },
+    "png_json": {
+      "backend": "remote",
+      "model": "Qwen/Qwen3-VL-8B-Instruct",
+      "is_mock": false,
+      "total": 100,
+      "correct": 44,
+      "failed": 0,
+      "accuracy": 0.44,
+      "confusion_matrix": [
+        [
+          5,
+          0,
+          16,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          25
+        ],
+        [
+          5,
+          0,
+          14,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          25
+        ]
+      ],
+      "labels": [
+        "SITTING_HAND_DOWN",
+        "SITTING_HAND_UP",
+        "STANDING_HAND_DOWN",
+        "STANDING_HAND_UP"
+      ],
+      "per_class": {
+        "SITTING_HAND_DOWN": {
+          "precision": 0.5,
+          "recall_on_valid_predictions": 0.2,
+          "f1_on_valid_predictions": 0.28571428571428575,
+          "valid_support": 25
+        },
+        "SITTING_HAND_UP": {
+          "precision": 0,
+          "recall_on_valid_predictions": 0.0,
+          "f1_on_valid_predictions": 0,
+          "valid_support": 25
+        },
+        "STANDING_HAND_DOWN": {
+          "precision": 0.4666666666666667,
+          "recall_on_valid_predictions": 0.56,
+          "f1_on_valid_predictions": 0.509090909090909,
+          "valid_support": 25
+        },
+        "STANDING_HAND_UP": {
+          "precision": 0.4166666666666667,
+          "recall_on_valid_predictions": 1.0,
+          "f1_on_valid_predictions": 0.5882352941176471,
+          "valid_support": 25
+        }
+      },
+      "mean_latency_seconds": 0.07681046685029287,
+      "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+    }
+  },
+  "paired": {
+    "both_correct": 37,
+    "json_only_correct": 5,
+    "png_json_only_correct": 7,
+    "neither_correct": 51
+  },
+  "dataset_sha256": "c509713c7ded6b41146a4fb2166db6317b2e8b1179d26b4f91155be211e1a7cb",
+  "prompt_sha256": "32c5fb93569fa52501d37cd567634b692066f9c20a679df7931ab28283ec6d4d",
+  "source_sha256": {
+    "src/pose_llm_classifier/vision.py": "7ebb4126a040b8a02ccd4678bde55e3b52b496daa185f3c6ab08fc357212d123",
+    "src/pose_llm_classifier/inference.py": "7d4ba2e247792b4393119b95de2911ece57d39374ce2402e4368d554844beb62",
+    "src/pose_llm_classifier/evaluation.py": "7acc08923c0b80797adda0a9e7c8209947804a2ed90a6b6da8858e83d1d8d307",
+    "scripts/benchmark_vision.py": "44302d31090a245e57c0eee4aa733b75044e8f57a92649dc9efcd6d69c9a8ded"
+  },
+  "validation": "44 tests and Ruff passed; all 200 prompts and actual PNG bytes audited; image renderer invariant under changes to label/prediction/id metadata.",
+  "limitations": "Same coordinates represented as PNG; not new observational information. Reused synthetic development data. Compare modalities within the same VLM, not against different text model weights.",
+  "google_doc_url": "https://docs.google.com/document/d/1Qk312hVzzQu0xHE2cM2qNIESz5ogQY2mYUT6HoHptak",
+  "google_doc_tab_id": "t.rhtw1io484h0",
+  "google_doc_readback": "6 native tables and exact prompt verified; old tabs preserved"
+}

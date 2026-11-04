@@ -1,0 +1,69 @@
+{
+  "backend": "remote",
+  "model": "Qwen/Qwen3-VL-8B-Instruct",
+  "is_mock": false,
+  "total": 100,
+  "correct": 48,
+  "failed": 0,
+  "accuracy": 0.48,
+  "confusion_matrix": [
+    [
+      23,
+      0,
+      2,
+      0
+    ],
+    [
+      14,
+      0,
+      11,
+      0
+    ],
+    [
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      0,
+      25,
+      0
+    ]
+  ],
+  "labels": [
+    "SITTING_HAND_DOWN",
+    "SITTING_HAND_UP",
+    "STANDING_HAND_DOWN",
+    "STANDING_HAND_UP"
+  ],
+  "per_class": {
+    "SITTING_HAND_DOWN": {
+      "precision": 0.6216216216216216,
+      "recall_on_valid_predictions": 0.92,
+      "f1_on_valid_predictions": 0.7419354838709677,
+      "valid_support": 25
+    },
+    "SITTING_HAND_UP": {
+      "precision": 0,
+      "recall_on_valid_predictions": 0.0,
+      "f1_on_valid_predictions": 0,
+      "valid_support": 25
+    },
+    "STANDING_HAND_DOWN": {
+      "precision": 0.3968253968253968,
+      "recall_on_valid_predictions": 1.0,
+      "f1_on_valid_predictions": 0.5681818181818182,
+      "valid_support": 25
+    },
+    "STANDING_HAND_UP": {
+      "precision": 0,
+      "recall_on_valid_predictions": 0.0,
+      "f1_on_valid_predictions": 0,
+      "valid_support": 25
+    }
+  },
+  "mean_latency_seconds": 0.06769694833084941,
+  "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+}

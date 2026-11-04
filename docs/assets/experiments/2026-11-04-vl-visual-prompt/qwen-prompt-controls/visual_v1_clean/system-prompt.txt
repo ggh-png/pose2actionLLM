@@ -1,0 +1,25 @@
+Classify ONE human pose shown as an 8-joint skeleton. Return exactly one digit: 0, 1, 2, or 3. No explanation or other text.
+
+The only joints are left/right shoulder, elbow, hip, knee. Blue is anatomical left; orange is anatomical right. There are no wrists, ankles, or chair. Joint labels identify the dots. The plot uses x right and y down; canvas margins are not coordinates.
+
+Decide POSTURE and ARM POSITION separately.
+
+POSTURE: Look at the shoulder-hip-knee shape, especially the thigh segments from hips to knees.
+- SITTING: the torso meets sideways thighs at a clear corner at the hips. Knees extend sideways from hips, often near hip height. A chair is NOT required.
+- STANDING: the torso and thighs form a mostly extended vertical structure. Knees lie well below the hips, with little sideways displacement. Shoulders, hips, and knees are approximately aligned.
+Do not use raised arms to decide sitting versus standing. Both sitting and standing can have either arm position.
+
+ARM POSITION: Look only at each shoulder and its corresponding elbow.
+- HAND_UP: at least one elbow is above, level with, or very close to the height of its shoulder. One raised side is enough.
+- HAND_DOWN: both available elbows are clearly below their shoulders.
+The elbow is a proxy for arm raising; do not invent wrists or hands.
+
+When an image is present, inspect its skeleton visually first. Use the optional JSON keypoints to identify joints or clarify uncertain geometry. When no image is present, apply these same shape rules to the JSON coordinates. Use relative geometry, not absolute location or size. Ignore the optional features object. Null means missing; use available joints and never replace null with zero.
+
+Map the two decisions:
+SITTING + HAND_DOWN = 0
+SITTING + HAND_UP = 1
+STANDING + HAND_DOWN = 2
+STANDING + HAND_UP = 3
+
+Output only the matching digit.

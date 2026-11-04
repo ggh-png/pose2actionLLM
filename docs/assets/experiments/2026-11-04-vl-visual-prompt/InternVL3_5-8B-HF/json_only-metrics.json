@@ -1,0 +1,69 @@
+{
+  "backend": "remote",
+  "model": "OpenGVLab/InternVL3_5-8B-HF",
+  "is_mock": false,
+  "total": 100,
+  "correct": 46,
+  "failed": 0,
+  "accuracy": 0.46,
+  "confusion_matrix": [
+    [
+      20,
+      0,
+      5,
+      0
+    ],
+    [
+      0,
+      25,
+      0,
+      0
+    ],
+    [
+      25,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      24,
+      0,
+      1
+    ]
+  ],
+  "labels": [
+    "SITTING_HAND_DOWN",
+    "SITTING_HAND_UP",
+    "STANDING_HAND_DOWN",
+    "STANDING_HAND_UP"
+  ],
+  "per_class": {
+    "SITTING_HAND_DOWN": {
+      "precision": 0.4444444444444444,
+      "recall_on_valid_predictions": 0.8,
+      "f1_on_valid_predictions": 0.5714285714285714,
+      "valid_support": 25
+    },
+    "SITTING_HAND_UP": {
+      "precision": 0.5102040816326531,
+      "recall_on_valid_predictions": 1.0,
+      "f1_on_valid_predictions": 0.6756756756756758,
+      "valid_support": 25
+    },
+    "STANDING_HAND_DOWN": {
+      "precision": 0.0,
+      "recall_on_valid_predictions": 0.0,
+      "f1_on_valid_predictions": 0,
+      "valid_support": 25
+    },
+    "STANDING_HAND_UP": {
+      "precision": 1.0,
+      "recall_on_valid_predictions": 0.04,
+      "f1_on_valid_predictions": 0.07692307692307693,
+      "valid_support": 25
+    }
+  },
+  "mean_latency_seconds": 0.046408684812195136,
+  "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+}

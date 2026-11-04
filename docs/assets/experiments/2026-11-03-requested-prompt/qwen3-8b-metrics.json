@@ -1,0 +1,69 @@
+{
+  "backend": "remote",
+  "model": "Qwen/Qwen3-8B",
+  "is_mock": false,
+  "total": 100,
+  "correct": 33,
+  "failed": 0,
+  "accuracy": 0.33,
+  "confusion_matrix": [
+    [
+      25,
+      0,
+      0,
+      0
+    ],
+    [
+      17,
+      0,
+      0,
+      8
+    ],
+    [
+      25,
+      0,
+      0,
+      0
+    ],
+    [
+      17,
+      0,
+      0,
+      8
+    ]
+  ],
+  "labels": [
+    "SITTING_HAND_DOWN",
+    "SITTING_HAND_UP",
+    "STANDING_HAND_DOWN",
+    "STANDING_HAND_UP"
+  ],
+  "per_class": {
+    "SITTING_HAND_DOWN": {
+      "precision": 0.2976190476190476,
+      "recall_on_valid_predictions": 1.0,
+      "f1_on_valid_predictions": 0.4587155963302752,
+      "valid_support": 25
+    },
+    "SITTING_HAND_UP": {
+      "precision": 0,
+      "recall_on_valid_predictions": 0.0,
+      "f1_on_valid_predictions": 0,
+      "valid_support": 25
+    },
+    "STANDING_HAND_DOWN": {
+      "precision": 0,
+      "recall_on_valid_predictions": 0.0,
+      "f1_on_valid_predictions": 0,
+      "valid_support": 25
+    },
+    "STANDING_HAND_UP": {
+      "precision": 0.5,
+      "recall_on_valid_predictions": 0.32,
+      "f1_on_valid_predictions": 0.39024390243902435,
+      "valid_support": 25
+    }
+  },
+  "mean_latency_seconds": 0.04688395495089935,
+  "note": "Mock metrics are plumbing checks only. Failures count as incorrect in accuracy; confusion matrix and per-class metrics exclude failed predictions."
+}
