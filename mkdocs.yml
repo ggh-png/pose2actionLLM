@@ -8,12 +8,29 @@ theme:
   language: ko
   font: false
   palette:
-    primary: teal
-    accent: cyan
+    - scheme: default
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: 어두운 테마로 전환
+    - scheme: slate
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: 밝은 테마로 전환
   features:
+    - navigation.tabs
     - navigation.sections
+    - navigation.indexes
     - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
     - content.code.copy
+extra_css:
+  - stylesheets/extra.css
 plugins:
   - search
 markdown_extensions:
@@ -22,24 +39,39 @@ markdown_extensions:
   - toc:
       permalink: true
   - pymdownx.highlight
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
 nav:
-  - 소개: index.md
-  - 전체 처리 흐름: pipeline.md
-  - 사용 가이드:
+  - 시작하기:
+      - 소개: index.md
+      - 전체 흐름과 모델 호출: pipeline.md
       - 설치와 빠른 시작: getting-started.md
+  - 데이터와 결과:
+      - 최신 VL 모델·골격 모양 평가: experiment-results.md
+      - 11/04 Qwen3-VL-4B 확대 골격 추가 실험: experiment-results-2026-11-04-vl-4b-clean.md
+      - 현재 데이터셋: dataset-100.md
+      - 클래스별 이미지: visualization.md
+      - 이전 기록:
+          - 11/04 Qwen PNG+JSON 수치 프롬프트: experiment-results-2026-11-04-qwen-vl-numeric.md
+          - 11/04 텍스트 수치 규칙: experiment-results-2026-11-04-numeric-rules.md
+          - 11/03 사용자 프롬프트: experiment-results-2026-11-03-user-prompt.md
+          - v4 기존 프롬프트: experiment-results-v4-original-prompt.md
+          - v2 평가 결과: experiment-results-v2.md
+          - v2 데이터 목록: dataset-v2.md
+  - 실행 가이드:
       - 서버 최초 설치: server-setup.md
       - 서버 자동 실행과 피드백: server-automation.md
       - 8개 관절 데이터 형식: data-format.md
-      - 시각화와 합성 데이터: visualization.md
-      - 합성 데이터 100개 목록: dataset-100.md
       - 전처리와 Feature: preprocessing.md
       - LLM 평가와 모델 비교: evaluation.md
-      - 합성 100개 LLM 실험 결과: experiment-results.md
       - FastAPI: api.md
   - 개발 참고:
       - 코드 구조와 문서 관리: development.md
