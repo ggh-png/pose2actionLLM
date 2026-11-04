@@ -1,202 +1,234 @@
-# 합성 100개 LLM 실험 결과
+# 최신 평가 결과 · VL 모델과 골격 모양 중심 프롬프트
 
-2026-11-03에 [합성 데이터 100개](dataset-100.md)로 Qwen3-4B zero-shot 평가를 실행했습니다.
-**Qwen3-4B는 11/100 정답(11%), 추론·파싱 실패 0건입니다.**
-이 결과는 합성 패턴과 현재 프롬프트에 대한 단일 실행 기록이며 실제 사람의 동작 분류 성능을 입증하지 않습니다.
+2026-11-04에 Qwen3-VL-8B-Instruct, InternVL3.5-8B-HF, Idefics3-8B-Llama3를 같은 합성 100개로 비교했습니다. **최종 모양 중심 지시문 v2의 내용은 모든 모델·입력 조건에 동일하게 사용했습니다.** 핵심 비교는 모델별 5조건 × 100개 = 총 1,500개 실제 응답입니다.
 
-## 모델별 실행 결과
+## 추가 실험: Qwen3-VL-4B 확대 골격
 
-| 모델/백엔드 | 데이터 | 정답 | 정확도 | 실패 | 평균 요청 지연 |
-|---|---|---:|---:|---:|---:|
-| Qwen/Qwen3-4B · remote · zero-shot | 동일 합성 100개 | 11/100 | 11% | 0 | 30.71 ms |
-| mock-constant-0 · 개발용 상수 백엔드 | 동일 합성 100개 | 25/100 | 25% | 0 | 비교 대상 아님 |
-| Llama 계열 | 미실행 · 실제 모델 ID 미지정 | — | — | — | — |
+다음으로 4B 모델도 같은 조건으로 추가 평가했습니다. 전체 실험 요약은 아래와 같습니다.
 
-mock은 LLM이 아니며 입력과 관계없이 0을 반환합니다. 균등한 클래스 분포 때문에 25%입니다.
-Llama의 측정값은 없으며 README 예제의 `llama-server-model`은 설치된 모델 이름이 아닙니다.
-측정한 실제 LLM은 Qwen3-4B 한 개이므로 최적 LLM을 선정하지 않습니다.
-지연시간은 모델 준비 시간을 제외한 순차 HTTP 요청 100개의 평균입니다.
-다른 GPU 작업과 자원을 공유한 환경의 관측값이며 전용 서버 벤치마크 수치가 아닙니다.
+| 모델 | 조건 | 정확도 |
+|---|---|---:|
+| Qwen3-VL-4B-Instruct | JSON only | 0.37 |
+| Qwen3-VL-4B-Instruct | 확대 PNG only | 0.43 |
+| Qwen3-VL-4B-Instruct | 확대 PNG + JSON | 0.55 |
 
-## 혼동행렬
+4B 실험의 의미는 **확대 골격 + JSON 조합이 가장 나은 조건**이라는 점을 확인한 것입니다. 다만 `HAND_UP` 계열의 판정은 여전히 약하게 남아 있어, 프롬프트 개선이 필요한 영역입니다.
 
-행은 정답, 열은 예측입니다. ID 정의는 [데이터 클래스 표](dataset-100.md)를 따릅니다.
+자세한 내용은 [4B 추가 실험 페이지](experiment-results-2026-11-04-vl-4b-clean.md)를 참고하세요.
 
-![Qwen3-4B 합성 100개 혼동행렬](assets/experiments/2026-11-03/qwen3-4b-confusion.svg)
+## 모양 중심 프롬프트
 
-| 정답 \ 예측 | 0 | 1 | 2 | 3 |
-|---|---:|---:|---:|---:|
-| 0 | 0 | 0 | 9 | 16 |
-| 1 | 0 | 1 | 16 | 8 |
-| 2 | 0 | 0 | 2 | 23 |
-| 3 | 0 | 1 | 16 | 8 |
+이미지에서는 팔 가지를 잠시 제외하고 어깨→골반→무릎의 연결 모양을 먼저 봅니다. 골반에서 옆으로 꺾인 L 모양이면 앉기, 몸통과 허벅지가 길게 이어진 I 모양이면 서기로 판단합니다. 이후 어깨→팔꿈치 가지가 위/수평인지 아래인지 별도로 판단합니다. 소수 좌표의 내적·외적 계산을 요구하지 않습니다.
 
-## 클래스별 지표
+이미지가 있으면 골격 모양을 우선하고 JSON은 관절 식별과 불분명한 연결의 보조 정보로 사용합니다. PNG만 조건은 JSON을 전혀 전송하지 않습니다. 클래스 정의는 0=앉기·팔 내림, 1=앉기·팔 올림, 2=서기·팔 내림, 3=서기·팔 올림으로 유지합니다.
 
-| ID | 클래스 | Precision | Recall | F1 | 정답 수 |
-|---|---|---:|---:|---:|---:|
-| 0 | SITTING_HAND_DOWN | 0.0000 | 0.0000 | 0.0000 | 25 |
-| 1 | SITTING_HAND_UP | 0.5000 | 0.0400 | 0.0741 | 25 |
-| 2 | STANDING_HAND_DOWN | 0.0465 | 0.0800 | 0.0588 | 25 |
-| 3 | STANDING_HAND_UP | 0.1455 | 0.3200 | 0.2000 | 25 |
+Idefics는 시스템 역할에서 마침표·설명문을 반환하는 형식 실패를 확인해, 같은 지시문 내용을 단일 사용자 메시지에 넣고 이미지를 먼저 배치하는 네이티브 형식으로 평가했습니다. 다른 두 모델은 시스템 역할을 사용합니다. Idefics의 초기 실패 기록은 별도 보존했고, 최종 비교는 숫자 한 자리만 허용하는 동일한 채점 기준입니다. InternVL에서 발견한 TensorFlow CUDA 라이브러리 경로 충돌은 서버 프로세스의 LD_LIBRARY_PATH를 모델 가상환경 라이브러리로 제한해 해결했습니다. 모델별 runs 메타데이터에 실제 환경 설정을 기록했습니다.
 
-실패가 0건이므로 여기서 Recall과 F1의 표본에는 100개 전체가 포함됩니다.
-기록에서 관찰되는 사항은 다음과 같습니다.
+## 같은 골격의 두 이미지 표현
 
-- 클래스 0 예측은 0개입니다.
-- 정답이 앉기인 50개 중 49개를 서기로 분류했습니다.
-- 정답·예측의 팔 올림/내림 구분이 일치한 샘플은 29/100개입니다.
+- 기존 도식: 600×600 PNG, 전체 0~1 좌표축·격자·관절 글자를 포함합니다. 정답·예측·샘플 ID는 없습니다.
+- 확대 골격: 같은 관절 좌표를 균일 확대·이동하고, 축·격자·글자를 제거했습니다. 흰 배경에 굵은 연결선과 좌우 색 점만 표시합니다. 각도와 상대 길이·위아래 관계는 유지합니다.
 
-이 현상만으로 모델 내부의 오분류 원인을 단정할 수 없습니다.
-프롬프트 수정이나 few-shot은 이번 결과를 본 뒤의 별도 실험으로 분리해야 하며,
-다음 평가에서는 실제 관측 데이터와 별도 평가 세트를 확보해야 합니다.
+확대 비율과 여백은 관절 위치만으로 결정합니다. 정답 라벨은 렌더링에 사용하지 않습니다. 모델에는 파일명 없이 실제 PNG 바이트를 전달했고, 전송 이미지와 저장 이미지 SHA256을 대조했습니다.
 
-## 실행 조건과 재현
+| 기존 도식 | 확대 골격 |
+|---|---|
+| ![기존 도식](assets/experiments/2026-11-04-vl-visual-prompt/images/plot/0079.png) | ![확대 골격](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0079.png) |
+
+확대·축/글자 제거·굵은 선을 함께 적용한 조건이므로 개별 요소의 기여를 분리한 실험은 아닙니다.
+
+## 모델별 정확도
+
+| 모델 | JSON만 | 기존 PNG만 | 기존 PNG+JSON | 확대 PNG만 | 확대 PNG+JSON |
+|---|---:|---:|---:|---:|---:|
+| Qwen3-VL-8B-Instruct | 56% | 28% | 57% | 48% | 90% |
+| InternVL3_5-8B-HF | 46% | 30% | 46% | 44% | 51% |
+| Idefics3-8B-Llama3 | 0% | 25% | 25% | 28% | 36% |
+
+| 모델 | 조건별 실패 수 (위 표 순서) |
+|---|---|
+| Qwen3-VL-8B-Instruct | 0 / 0 / 0 / 0 / 0 |
+| InternVL3_5-8B-HF | 0 / 0 / 0 / 0 / 0 |
+| Idefics3-8B-Llama3 | 100 / 1 / 0 / 7 / 0 |
+
+실패는 전체 정확도에서 오답으로 포함하며 혼동행렬·클래스별 지표에서는 제외합니다. 각 조건의 정답·실패·지연·클래스별 지표는 아래 원본 metrics에 보관했습니다. Idefics의 JSON만 조건은 `1.` 또는 `2.`처럼 마침표를 붙인 응답 100건이 모두 형식 실패여서 공식 정확도가 0%입니다. 이를 순수한 자세 판단 정확도 0%로 해석하지 않습니다.
+
+## Qwen 프롬프트 변경 기록
+
+다른 모델의 공통 비교와 별도로, Qwen에서 프롬프트 개발 단계를 보존했습니다. 최종 v2가 항상 가장 높은 점수를 낸다는 뜻은 아닙니다. 이전 수치 프롬프트도 같은 현재 서버 설정으로 재실행했습니다.
+
+| Qwen 프롬프트 | JSON만 | 기존 PNG만 | 기존 PNG+JSON | 확대 PNG만 | 확대 PNG+JSON |
+|---|---:|---:|---:|---:|---:|
+| 이전 수치 규칙 | 42% | — | 44% | — | 37% |
+| 이미지 우선 v1 | 50% | 37% | 60% | — | 56% |
+| 최종 골격 모양 v2 | 56% | 28% | 57% | 48% | 90% |
+
+프롬프트 개발은 Qwen에서 먼저 수행했으므로 다른 모델의 최적 프롬프트를 찾은 비교는 아닙니다. Qwen의 확대 PNG+JSON은 초기 89%, CUDA 라이브러리 경로를 통일한 재실행에서는 90%였고 두 기록을 모두 보존했습니다. 최종 모델 비교 표에는 통일된 환경에서의 재실행 값을 사용합니다. 프롬프트는 같은 개발 데이터 결과와 사용자 요청을 보며 반복 수정했습니다. 따라서 이 점수는 독립 테스트 세트나 실제 사람 자세에 대한 일반화 성능을 뜻하지 않습니다. 모델마다 네이티브 이미지 전처리·토큰화가 다르며 이를 동일한 전처리로 강제하지 않았습니다. 입력 PNG 파일과 JSON, 최종 프롬프트는 동일합니다.
+
+## PNG+JSON 혼동행렬
+
+행은 정답, 열은 예측입니다. 왼쪽은 기존 도식, 오른쪽은 확대 골격입니다. 앉기·팔 올림 등 클래스별 오류를 원본 지표와 함께 확인하세요.
+
+![모델별 혼동행렬](assets/experiments/2026-11-04-vl-visual-prompt/confusion-matrices.png)
+
+## 조건별 원본 기록 {#artifacts}
+
+[직전 Qwen 단일 모델 실험](experiment-results-2026-11-04-qwen-vl-numeric.md)은 별도로 보존했습니다.
 
 | 항목 | 값 |
 |---|---|
-| 평가 코드 revision | `a0a6743a4673c8a6eb9cf4e59ce4e936099f36fa` |
-| 모델 revision | `1cfa9a7208912126459214e8b04321603b3df60c` |
-| 데이터 생성 | v2 · seed 42 · 클래스별 25개 |
-| GPU | NVIDIA GeForce RTX 5090 · 약 32GB |
-| 실행 환경 | Python 3.12.3 · vLLM 0.33.0 · PyTorch 2.14.0+cu130 · CUDA runtime 13.0 |
-| 추론 방식 | zero-shot · temperature 0 · max_tokens 256 · thinking 비활성화 · seed 0 |
-| 서버 | context 4096 · max_num_seqs 2 · GPU 메모리 비율 0.45 · eager · TRITON_ATTN |
-| 샘플러 | `VLLM_USE_FLASHINFER_SAMPLER=0` · 시스템 CUDA 컴파일러 설치 없이 실행 |
-| 전처리 | min_confidence 0 · 정규화 좌표와 feature 전달 |
-| 라벨 누출 확인 | 질의 payload에 label/prediction/id/synthetic 메타데이터 미포함 |
+| 입력 | v4 측면 합성 100개 · seed 42 · 클래스별 25개 · 원본 좌표 재생성 없음 |
+| 모델 | 8B급 세 모델 · BF16 · 양자화 없음 |
+| 방식 | zero-shot · temperature 0 · max_tokens 256 |
+| 서버 | context 8192 · max_num_seqs 1 · GPU 비율 0.85 · eager · TRITON_ATTN · vision TORCH_SDPA · seed 0 |
+| 검증 | 테스트 51개와 Ruff, 전송 PNG/프롬프트/JSON/혼동행렬 대조 |
 
-클래스별 합성 갤러리를 확인한 뒤 사용자 요청으로 실행했습니다.
-실제 관측 pose 데이터에 대한 사람의 검토나 평가를 수행했다는 뜻은 아닙니다.
-모델 파일·캐시·가상환경은 로컬에만 보관하고 문서에는 평가 산출물만 포함합니다.
-실험을 위해 시작한 서버는 평가 후 종료했습니다.
+입력 SHA256: `c509713c7ded6b41146a4fb2166db6317b2e8b1179d26b4f91155be211e1a7cb`
 
-검토한 입력에 대해 `Qwen/Qwen3-4B`를 제공하는 로컬 서버가 준비되면:
+최종 프롬프트 SHA256(마지막 개행 제외): `3a4442f2def7b09806a8dcd65590f4eed91259e2452ced1303e61d7bb3b5295e`
+
+[최종 프롬프트 전문](assets/experiments/2026-11-04-vl-visual-prompt/system-prompt.txt) · [모든 지표·명령·모델 revision·SHA256](assets/experiments/2026-11-04-vl-visual-prompt/summary.json) · [평가 좌표 스냅샷](assets/experiments/2026-11-04-vl-visual-prompt/synthetic_100.jsonl) · [확대 이미지 해시 목록](assets/experiments/2026-11-04-vl-visual-prompt/clean-image-manifest.json)
+
+### Qwen3-VL-8B-Instruct
+- JSON만: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/Qwen3-VL-8B-Instruct/json_only-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/Qwen3-VL-8B-Instruct/json_only-predictions.jsonl)
+- 기존 PNG만: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/Qwen3-VL-8B-Instruct/plot_png_only-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/Qwen3-VL-8B-Instruct/plot_png_only-predictions.jsonl)
+- 기존 PNG+JSON: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/Qwen3-VL-8B-Instruct/plot_png_json-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/Qwen3-VL-8B-Instruct/plot_png_json-predictions.jsonl)
+- 확대 골격 PNG만: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/Qwen3-VL-8B-Instruct/clean_png_only-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/Qwen3-VL-8B-Instruct/clean_png_only-predictions.jsonl)
+- 확대 골격 PNG+JSON: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/Qwen3-VL-8B-Instruct/clean_png_json-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/Qwen3-VL-8B-Instruct/clean_png_json-predictions.jsonl)
+
+### InternVL3_5-8B-HF
+- JSON만: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/InternVL3_5-8B-HF/json_only-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/InternVL3_5-8B-HF/json_only-predictions.jsonl)
+- 기존 PNG만: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/InternVL3_5-8B-HF/plot_png_only-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/InternVL3_5-8B-HF/plot_png_only-predictions.jsonl)
+- 기존 PNG+JSON: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/InternVL3_5-8B-HF/plot_png_json-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/InternVL3_5-8B-HF/plot_png_json-predictions.jsonl)
+- 확대 골격 PNG만: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/InternVL3_5-8B-HF/clean_png_only-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/InternVL3_5-8B-HF/clean_png_only-predictions.jsonl)
+- 확대 골격 PNG+JSON: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/InternVL3_5-8B-HF/clean_png_json-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/InternVL3_5-8B-HF/clean_png_json-predictions.jsonl)
+
+### Idefics3-8B-Llama3
+- JSON만: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/Idefics3-8B-Llama3/json_only-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/Idefics3-8B-Llama3/json_only-predictions.jsonl)
+- 기존 PNG만: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/Idefics3-8B-Llama3/plot_png_only-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/Idefics3-8B-Llama3/plot_png_only-predictions.jsonl)
+- 기존 PNG+JSON: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/Idefics3-8B-Llama3/plot_png_json-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/Idefics3-8B-Llama3/plot_png_json-predictions.jsonl)
+- 확대 골격 PNG만: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/Idefics3-8B-Llama3/clean_png_only-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/Idefics3-8B-Llama3/clean_png_only-predictions.jsonl)
+- 확대 골격 PNG+JSON: [metrics](assets/experiments/2026-11-04-vl-visual-prompt/Idefics3-8B-Llama3/clean_png_json-metrics.json) · [100개 실제 프롬프트·응답](assets/experiments/2026-11-04-vl-visual-prompt/Idefics3-8B-Llama3/clean_png_json-predictions.jsonl)
+
+모델별 실제 요청 준비 확인은 별도 smoke 호출로 기록했으며 100개 평가 지표에는 포함하지 않습니다. 실험용 서버는 종료했습니다. 전체 오분류 PNG와 서버 로그는 `results/experiments/2026-11-04-vl-visual-prompt/`에 보관합니다.
+
+## 재현 {#reproduce}
+
+summary.json의 각 모델 runs 항목에 기록한 server_command로 모델을 준비한 후 새 출력 폴더로 실행합니다. 이미지 스타일은 같은 출력 폴더에서 섞어 쓸 수 없습니다.
 
 ```bash
-python scripts/evaluate_llm.py --input data/sample/synthetic_100.jsonl \
-  --backend remote --model Qwen/Qwen3-4B --base-url http://127.0.0.1:18080/v1 \
-  --visualization-reviewed --no-error-plots --output-dir results/qwen3-4b-synthetic100
+.venv/bin/python scripts/benchmark_vision.py --input data/sample/synthetic_100.jsonl \
+  --output-dir results/reproduction-clean --image-style clean --prepare-only
+# 입력 이미지를 점검한 후:
+.venv/bin/python scripts/benchmark_vision.py --input data/sample/synthetic_100.jsonl \
+  --output-dir results/reproduction-clean --image-style clean --visualization-reviewed \
+  --model Qwen/Qwen3-VL-8B-Instruct --base-url http://127.0.0.1:18083/v1 \
+  --modes png_only png_json
 ```
 
-서버의 chat template에서 `enable_thinking=false`를 설정해야 같은 조건입니다.
-전체 환경과 설정은 [실험 메타데이터](assets/experiments/2026-11-03/experiment.json)에 기록했습니다.
-서버 준비는 [자동 실행 가이드](server-automation.md)를 참고하세요.
+기존 도식은 `--image-style plot`로 새 출력 폴더를 지정하고 `--modes json_only png_only png_json`으로 실행합니다. 모델 ID는 해당 모델의 서버 이름으로 바꿉니다. Idefics에는 `--instruction-role user --image-first`를 추가하고, 서버에는 `--chat-template-content-format openai`를 적용합니다. 각 runs의 server_environment_overrides도 적용해야 TensorFlow 라이브러리 충돌을 피할 수 있습니다.
 
-## 원본 결과 파일
+??? abstract "100개별 확대 골격 PNG+JSON 예측 펼치기"
 
-- [Qwen3-4B metrics.json](assets/experiments/2026-11-03/qwen3-4b-metrics.json)
-- [Qwen3-4B 100개별 입력·프롬프트·응답·예측 JSONL](assets/experiments/2026-11-03/qwen3-4b-predictions.jsonl)
-- [같은 100개 mock metrics.json](assets/experiments/2026-11-03/mock-metrics.json)
-- [같은 100개 mock 예측 JSONL](assets/experiments/2026-11-03/mock-predictions.jsonl)
-- [이전 Qwen 기동 확인 요약](assets/experiments/2026-11-03/qwen3-4b-smoke-summary.json) · [기동 확인 응답](assets/experiments/2026-11-03/qwen3-4b-smoke-response.json)
-
-기동 확인은 “숫자 0만 반환”하라는 요청에 대한 응답 한 건으로, pose 평가와 별개의 기록입니다.
-기존 `poses.jsonl` 4개 mock 평가(1/4 정답) 역시 이번 100개 평가와 다른 실행입니다.
-
-## 100개별 Qwen3-4B 예측
-
-좌표와 이미지는 [전체 데이터 목록](dataset-100.md)에서 같은 ID로 확인할 수 있습니다.
-
-| 샘플 ID | 정답 | 예측 | 원문 응답 | 정오 |
-|---|---:|---:|---|---|
-| `synthetic-0-000` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-001` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-002` | 0 | 2 | `2` | 오답 |
-| `synthetic-0-003` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-004` | 0 | 2 | `2` | 오답 |
-| `synthetic-0-005` | 0 | 2 | `2` | 오답 |
-| `synthetic-0-006` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-007` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-008` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-009` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-010` | 0 | 2 | `2` | 오답 |
-| `synthetic-0-011` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-012` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-013` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-014` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-015` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-016` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-017` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-018` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-019` | 0 | 2 | `2` | 오답 |
-| `synthetic-0-020` | 0 | 2 | `2` | 오답 |
-| `synthetic-0-021` | 0 | 2 | `2` | 오답 |
-| `synthetic-0-022` | 0 | 2 | `2` | 오답 |
-| `synthetic-0-023` | 0 | 3 | `3` | 오답 |
-| `synthetic-0-024` | 0 | 2 | `2` | 오답 |
-| `synthetic-1-000` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-001` | 1 | 3 | `3` | 오답 |
-| `synthetic-1-002` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-003` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-004` | 1 | 3 | `3` | 오답 |
-| `synthetic-1-005` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-006` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-007` | 1 | 3 | `3` | 오답 |
-| `synthetic-1-008` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-009` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-010` | 1 | 3 | `3` | 오답 |
-| `synthetic-1-011` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-012` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-013` | 1 | 3 | `3` | 오답 |
-| `synthetic-1-014` | 1 | 1 | `1` | 정답 |
-| `synthetic-1-015` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-016` | 1 | 3 | `3` | 오답 |
-| `synthetic-1-017` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-018` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-019` | 1 | 3 | `3` | 오답 |
-| `synthetic-1-020` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-021` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-022` | 1 | 3 | `3` | 오답 |
-| `synthetic-1-023` | 1 | 2 | `2` | 오답 |
-| `synthetic-1-024` | 1 | 2 | `2` | 오답 |
-| `synthetic-2-000` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-001` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-002` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-003` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-004` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-005` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-006` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-007` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-008` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-009` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-010` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-011` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-012` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-013` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-014` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-015` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-016` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-017` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-018` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-019` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-020` | 2 | 2 | `2` | 정답 |
-| `synthetic-2-021` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-022` | 2 | 3 | `3` | 오답 |
-| `synthetic-2-023` | 2 | 2 | `2` | 정답 |
-| `synthetic-2-024` | 2 | 3 | `3` | 오답 |
-| `synthetic-3-000` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-001` | 3 | 3 | `3` | 정답 |
-| `synthetic-3-002` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-003` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-004` | 3 | 3 | `3` | 정답 |
-| `synthetic-3-005` | 3 | 1 | `1` | 오답 |
-| `synthetic-3-006` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-007` | 3 | 3 | `3` | 정답 |
-| `synthetic-3-008` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-009` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-010` | 3 | 3 | `3` | 정답 |
-| `synthetic-3-011` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-012` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-013` | 3 | 3 | `3` | 정답 |
-| `synthetic-3-014` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-015` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-016` | 3 | 3 | `3` | 정답 |
-| `synthetic-3-017` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-018` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-019` | 3 | 3 | `3` | 정답 |
-| `synthetic-3-020` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-021` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-022` | 3 | 3 | `3` | 정답 |
-| `synthetic-3-023` | 3 | 2 | `2` | 오답 |
-| `synthetic-3-024` | 3 | 2 | `2` | 오답 |
+    | 입력 이미지 / ID | 정답 | Qwen3-VL | InternVL3.5 | Idefics3 |
+    |---|---:|---:|---:|---:|
+    | [synthetic-0-000](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0000.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-001](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0001.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-002](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0002.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-003](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0003.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-004](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0004.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-005](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0005.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-006](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0006.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-007](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0007.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-008](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0008.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-009](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0009.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-010](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0010.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-011](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0011.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-012](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0012.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-013](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0013.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-014](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0014.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-015](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0015.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-016](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0016.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-017](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0017.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-018](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0018.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-019](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0019.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-020](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0020.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-021](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0021.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-022](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0022.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-023](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0023.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-0-024](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0024.png) | 0 | 0 | 0 | 2 |
+    | [synthetic-1-000](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0025.png) | 1 | 0 | 1 | 2 |
+    | [synthetic-1-001](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0026.png) | 1 | 1 | 1 | 1 |
+    | [synthetic-1-002](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0027.png) | 1 | 1 | 1 | 1 |
+    | [synthetic-1-003](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0028.png) | 1 | 3 | 1 | 1 |
+    | [synthetic-1-004](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0029.png) | 1 | 3 | 1 | 2 |
+    | [synthetic-1-005](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0030.png) | 1 | 1 | 1 | 1 |
+    | [synthetic-1-006](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0031.png) | 1 | 1 | 1 | 2 |
+    | [synthetic-1-007](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0032.png) | 1 | 3 | 3 | 1 |
+    | [synthetic-1-008](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0033.png) | 1 | 1 | 1 | 1 |
+    | [synthetic-1-009](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0034.png) | 1 | 0 | 1 | 2 |
+    | [synthetic-1-010](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0035.png) | 1 | 1 | 1 | 2 |
+    | [synthetic-1-011](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0036.png) | 1 | 3 | 1 | 1 |
+    | [synthetic-1-012](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0037.png) | 1 | 1 | 1 | 2 |
+    | [synthetic-1-013](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0038.png) | 1 | 3 | 1 | 1 |
+    | [synthetic-1-014](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0039.png) | 1 | 1 | 1 | 1 |
+    | [synthetic-1-015](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0040.png) | 1 | 1 | 1 | 2 |
+    | [synthetic-1-016](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0041.png) | 1 | 3 | 3 | 2 |
+    | [synthetic-1-017](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0042.png) | 1 | 1 | 1 | 2 |
+    | [synthetic-1-018](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0043.png) | 1 | 1 | 1 | 2 |
+    | [synthetic-1-019](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0044.png) | 1 | 3 | 3 | 1 |
+    | [synthetic-1-020](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0045.png) | 1 | 1 | 1 | 2 |
+    | [synthetic-1-021](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0046.png) | 1 | 1 | 1 | 2 |
+    | [synthetic-1-022](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0047.png) | 1 | 1 | 1 | 2 |
+    | [synthetic-1-023](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0048.png) | 1 | 1 | 3 | 1 |
+    | [synthetic-1-024](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0049.png) | 1 | 1 | 1 | 2 |
+    | [synthetic-2-000](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0050.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-001](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0051.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-002](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0052.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-003](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0053.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-004](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0054.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-005](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0055.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-006](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0056.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-007](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0057.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-008](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0058.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-009](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0059.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-010](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0060.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-011](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0061.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-012](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0062.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-013](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0063.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-014](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0064.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-015](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0065.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-016](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0066.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-017](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0067.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-018](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0068.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-019](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0069.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-020](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0070.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-021](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0071.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-022](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0072.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-023](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0073.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-2-024](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0074.png) | 2 | 2 | 0 | 2 |
+    | [synthetic-3-000](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0075.png) | 3 | 3 | 1 | 2 |
+    | [synthetic-3-001](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0076.png) | 3 | 3 | 1 | 2 |
+    | [synthetic-3-002](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0077.png) | 3 | 3 | 1 | 2 |
+    | [synthetic-3-003](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0078.png) | 3 | 3 | 1 | 2 |
+    | [synthetic-3-004](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0079.png) | 3 | 3 | 3 | 1 |
+    | [synthetic-3-005](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0080.png) | 3 | 3 | 1 | 1 |
+    | [synthetic-3-006](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0081.png) | 3 | 3 | 0 | 2 |
+    | [synthetic-3-007](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0082.png) | 3 | 3 | 1 | 1 |
+    | [synthetic-3-008](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0083.png) | 3 | 3 | 1 | 1 |
+    | [synthetic-3-009](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0084.png) | 3 | 2 | 1 | 2 |
+    | [synthetic-3-010](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0085.png) | 3 | 3 | 1 | 2 |
+    | [synthetic-3-011](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0086.png) | 3 | 3 | 3 | 1 |
+    | [synthetic-3-012](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0087.png) | 3 | 3 | 0 | 2 |
+    | [synthetic-3-013](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0088.png) | 3 | 3 | 1 | 2 |
+    | [synthetic-3-014](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0089.png) | 3 | 3 | 3 | 1 |
+    | [synthetic-3-015](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0090.png) | 3 | 3 | 0 | 2 |
+    | [synthetic-3-016](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0091.png) | 3 | 3 | 1 | 2 |
+    | [synthetic-3-017](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0092.png) | 3 | 3 | 1 | 2 |
+    | [synthetic-3-018](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0093.png) | 3 | 3 | 1 | 2 |
+    | [synthetic-3-019](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0094.png) | 3 | 3 | 3 | 1 |
+    | [synthetic-3-020](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0095.png) | 3 | 3 | 3 | 1 |
+    | [synthetic-3-021](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0096.png) | 3 | 3 | 1 | 2 |
+    | [synthetic-3-022](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0097.png) | 3 | 3 | 1 | 2 |
+    | [synthetic-3-023](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0098.png) | 3 | 3 | 1 | 1 |
+    | [synthetic-3-024](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0099.png) | 3 | 3 | 1 | 2 |
