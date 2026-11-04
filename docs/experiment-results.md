@@ -1,52 +1,95 @@
 # 최신 평가 결과 · VL 모델과 골격 모양 중심 프롬프트
 
-2026-11-04에 Qwen3-VL-8B-Instruct, InternVL3.5-8B-HF, Idefics3-8B-Llama3를 같은 합성 100개로 비교했습니다. **최종 모양 중심 지시문 v2의 내용은 모든 모델·입력 조건에 동일하게 사용했습니다.** 핵심 비교는 모델별 5조건 × 100개 = 총 1,500개 실제 응답입니다.
+2026-11-04에 수행한 실험은 같은 합성 100개 데이터와 같은 프롬프트를 기준으로, 모델과 입력 표현만 바꿔가며 비교한 결과입니다. 핵심은 “좌표만 주는지, 확대 골격 이미지를 함께 주는지”가 성능 차이를 결정했다는 점입니다.
+
+## 한눈에 보는 결과
+
+아래 표는 최신 VL 모델과 기존 LLM 모델을 같은 기준으로 정리한 요약입니다. 모델명 옆 링크를 누르면 Hugging Face로 이동할 수 있습니다.
+
+| 모델 | 유형 | Hugging Face | 최신 결과 | 한 줄 요약 |
+|---|---|---|---:|---|
+| [Qwen3-VL-8B-Instruct](https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct) | VL | [Qwen/Qwen3-VL-8B-Instruct](https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct) | 90% | 가장 높은 정확도. 확대 골격 구조 인식이 가장 강함 |
+| [Qwen3-VL-4B-Instruct](https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct) | VL | [Qwen/Qwen3-VL-4B-Instruct](https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct) | 55% | 8B보다 낮지만 같은 패턴을 보임 |
+| [InternVL3_5-8B-HF](https://huggingface.co/OpenGVLab/InternVL3_5-8B-HF) | VL | [OpenGVLab/InternVL3_5-8B-HF](https://huggingface.co/OpenGVLab/InternVL3_5-8B-HF) | 51% | 중간 수준. 구조 이해는 가능하지만 약함 |
+| [Idefics3-8B-Llama3](https://huggingface.co/HuggingFaceM4/Idefics3-8B-Llama3) | VL | [HuggingFaceM4/Idefics3-8B-Llama3](https://huggingface.co/HuggingFaceM4/Idefics3-8B-Llama3) | 36% | 가장 낮은 VL 성능 |
+| [Qwen3-8B](https://huggingface.co/Qwen/Qwen3-8B) | LLM | [Qwen/Qwen3-8B](https://huggingface.co/Qwen/Qwen3-8B) | 37% | 기존 LLM 중 가장 강함 |
+| [Qwen3-4B](https://huggingface.co/Qwen/Qwen3-4B) | LLM | [Qwen/Qwen3-4B](https://huggingface.co/Qwen/Qwen3-4B) | 25~27% | 텍스트 기반으로는 중하위권 |
+| [Llama-3.1-8B-Instruct](https://huggingface.co/NousResearch/Meta-Llama-3.1-8B-Instruct) | LLM | [NousResearch/Meta-Llama-3.1-8B-Instruct](https://huggingface.co/NousResearch/Meta-Llama-3.1-8B-Instruct) | 25% | 규칙 기반에서도 제한적 |
+
+### 핵심 결론
+
+- 가장 좋은 조합은 **확대 골격 PNG + JSON**입니다.
+- 가장 좋은 모델은 **Qwen3-VL-8B-Instruct**입니다.
+- 기존 LLM은 전반적으로 낮았고, 특히 `HAND_UP` 판정이 가장 약했습니다.
+- 4B와 8B를 같은 입력으로 비교하면, **형태 정보를 그림으로 함께 주는 쪽이 훨씬 효율적**입니다.
+
+## 같은 입력 조건 비교: 4B vs 8B
+
+아래 표는 같은 조건으로 재사용한 결과만 정리한 것입니다. 기준은 모두 **확대 골격 이미지 + JSON**, 같은 100개 합성 데이터, 같은 프롬프트입니다.
+
+| 모델 | JSON만 | 확대 PNG만 | 확대 PNG+JSON |
+|---|---:|---:|---:|
+| Qwen3-VL-8B-Instruct | 56% | 48% | 90% |
+| Qwen3-VL-4B-Instruct | 37% | 43% | 55% |
+
+이 표가 가장 중요합니다. 두 모델 모두 “이미지 + JSON”이 가장 좋지만, 8B는 그 효과가 훨씬 크고 전체적으로 더 안정적입니다. 4B는 낮지만 방향성은 같고, **입력 표현이 성능을 크게 바꾸는 구조**는 공통으로 확인되었습니다.
 
 ## 추가 실험: Qwen3-VL-4B 확대 골격
 
-다음으로 4B 모델도 같은 조건으로 추가 평가했습니다. 전체 실험 요약은 아래와 같습니다.
+다음으로 4B 모델도 같은 조건으로 다시 평가했습니다.
 
 | 모델 | 조건 | 정확도 |
 |---|---|---:|
-| Qwen3-VL-4B-Instruct | JSON only | 0.37 |
-| Qwen3-VL-4B-Instruct | 확대 PNG only | 0.43 |
-| Qwen3-VL-4B-Instruct | 확대 PNG + JSON | 0.55 |
+| Qwen3-VL-4B-Instruct | JSON only | 37% |
+| Qwen3-VL-4B-Instruct | 확대 PNG only | 43% |
+| Qwen3-VL-4B-Instruct | 확대 PNG + JSON | 55% |
 
-4B 실험의 의미는 **확대 골격 + JSON 조합이 가장 나은 조건**이라는 점을 확인한 것입니다. 다만 `HAND_UP` 계열의 판정은 여전히 약하게 남아 있어, 프롬프트 개선이 필요한 영역입니다.
+결과적으로 4B 역시 **확대 골격 + JSON 조합이 가장 유리**했습니다. 다만 `HAND_UP` 판정은 여전히 약하며, 프롬프트와 판단 기준을 더 정교하게 다듬어야 합니다.
 
 자세한 내용은 [4B 추가 실험 페이지](experiment-results-2026-11-04-vl-4b-clean.md)를 참고하세요.
 
-## 모양 중심 프롬프트
+## 실험 조건과 해석
 
-이미지에서는 팔 가지를 잠시 제외하고 어깨→골반→무릎의 연결 모양을 먼저 봅니다. 골반에서 옆으로 꺾인 L 모양이면 앉기, 몸통과 허벅지가 길게 이어진 I 모양이면 서기로 판단합니다. 이후 어깨→팔꿈치 가지가 위/수평인지 아래인지 별도로 판단합니다. 소수 좌표의 내적·외적 계산을 요구하지 않습니다.
+- 기존 도식: 축, 격자, 라벨이 많은 PNG
+- 확대 골격: 연결선과 관절만 남긴 PNG, 형태가 더 분명함
+- 조건 비교: JSON만 / PNG만 / PNG+JSON / 확대 PNG만 / 확대 PNG+JSON
+- 모든 비교는 같은 데이터와 같은 프롬프트를 사용했기 때문에 차이는 입력 표현 방식에 기인합니다.
 
-이미지가 있으면 골격 모양을 우선하고 JSON은 관절 식별과 불분명한 연결의 보조 정보로 사용합니다. PNG만 조건은 JSON을 전혀 전송하지 않습니다. 클래스 정의는 0=앉기·팔 내림, 1=앉기·팔 올림, 2=서기·팔 내림, 3=서기·팔 올림으로 유지합니다.
+### 왜 구조가 중요했나
 
-Idefics는 시스템 역할에서 마침표·설명문을 반환하는 형식 실패를 확인해, 같은 지시문 내용을 단일 사용자 메시지에 넣고 이미지를 먼저 배치하는 네이티브 형식으로 평가했습니다. 다른 두 모델은 시스템 역할을 사용합니다. Idefics의 초기 실패 기록은 별도 보존했고, 최종 비교는 숫자 한 자리만 허용하는 동일한 채점 기준입니다. InternVL에서 발견한 TensorFlow CUDA 라이브러리 경로 충돌은 서버 프로세스의 LD_LIBRARY_PATH를 모델 가상환경 라이브러리로 제한해 해결했습니다. 모델별 runs 메타데이터에 실제 환경 설정을 기록했습니다.
+Qwen3-VL-8B-Instruct는 JSON만으로 56%였지만, 확대 골격 이미지와 JSON을 함께 주면 90%까지 올라갔습니다. 이는 단순히 “이미지가 많다”가 아니라, 이미지가 어떤 방식으로 보이느냐가 핵심이라는 뜻입니다. 특히 앉기/서기 큰 구조는 비교적 잘 잡히고, **손을 올린 상태 구분**은 여전히 가장 어려운 문제로 남아 있습니다.
 
-## 같은 골격의 두 이미지 표현
+## 다음 단계
 
-- 기존 도식: 600×600 PNG, 전체 0~1 좌표축·격자·관절 글자를 포함합니다. 정답·예측·샘플 ID는 없습니다.
-- 확대 골격: 같은 관절 좌표를 균일 확대·이동하고, 축·격자·글자를 제거했습니다. 흰 배경에 굵은 연결선과 좌우 색 점만 표시합니다. 각도와 상대 길이·위아래 관계는 유지합니다.
+- `HAND_UP` 판정 기준을 더 명확히 만드는 실험
+- 실제 사람 pose 데이터로의 외부 검증
+- 4B와 8B의 입력 표현 차이를 더 정교하게 분석
 
-확대 비율과 여백은 관절 위치만으로 결정합니다. 정답 라벨은 렌더링에 사용하지 않습니다. 모델에는 파일명 없이 실제 PNG 바이트를 전달했고, 전송 이미지와 저장 이미지 SHA256을 대조했습니다.
+이 결과는 [4B 추가 실험 페이지](experiment-results-2026-11-04-vl-4b-clean.md)와 함께 보면 가장 이해하기 쉽습니다.
 
-| 기존 도식 | 확대 골격 |
-|---|---|
-| ![기존 도식](assets/experiments/2026-11-04-vl-visual-prompt/images/plot/0079.png) | ![확대 골격](assets/experiments/2026-11-04-vl-visual-prompt/images/clean/0079.png) |
+## 모델별 정확도
 
-확대·축/글자 제거·굵은 선을 함께 적용한 조건이므로 개별 요소의 기여를 분리한 실험은 아닙니다.
+| 모델 | JSON만 | 기존 PNG만 | 기존 PNG+JSON | 확대 PNG만 | 확대 PNG+JSON |
+|---|---:|---:|---:|---:|---:|
+| Qwen3-VL-8B-Instruct | 56% | 28% | 57% | 48% | 90% |
+| InternVL3_5-8B-HF | 46% | 30% | 46% | 44% | 51% |
+| Idefics3-8B-Llama3 | 0% | 25% | 25% | 28% | 36% |
 
-## 한 줄 결론
+### 해석
 
-이번 실험에서 가장 중요한 결과는 단 하나입니다. 8B급 VL 모델 중에서도 Qwen3-VL-8B-Instruct가 가장 안정적으로 높은 정확도를 기록했고, 그 핵심은 이미지와 좌표를 함께 보는 방식이었습니다.
+- 8B는 이미지 표현을 바꾸는 것만으로도 성능이 크게 바뀌었습니다.
+- 4B는 낮은 절대 점수이지만, 같은 흐름을 보였습니다.
+- 가장 중요한 의의는, **모든 모델에서 확대 골격 조건이 JSON만보다 나은 경향**이 있다는 점입니다.
 
-- Qwen3-VL-8B-Instruct: 확대 골격 PNG+JSON = 90%
-- InternVL3_5-8B-HF: 확대 골격 PNG+JSON = 51%
-- Idefics3-8B-Llama3: 확대 골격 PNG+JSON = 36%
-- 추가 4B 실험: 확대 골격 PNG+JSON = 55%
+## 결론
 
-즉, 현재까지는 “이미지를 보여주고 좌표를 함께 주는 조합”이 가장 강력했고, 특히 확대된 골격 이미지는 모델이 자세의 형태를 더 잘 읽도록 도와주었습니다.
+현재까지의 실험 결과는 다음과 같이 요약할 수 있습니다.
+
+- 8B급 모델은 확대 골격 이미지 + JSON 조합이 최적 조건입니다.
+- 4B도 같은 조건에서 가장 나은 결과를 보였지만, 8B만큼의 안정성은 부족합니다.
+- 따라서 4B와 8B의 비교는 “같은 입력 조건을 쓰는 표”로 정리하는 것이 가장 정확합니다.
+
+이 비교표는 [4B 추가 실험 페이지](experiment-results-2026-11-04-vl-4b-clean.md)와 함께 보면 가장 이해하기 쉽습니다.
 
 ## 실험 조건이란?
 
