@@ -64,7 +64,7 @@ def evaluate(samples, classifier, output_dir, examples=(), save_errors=True, min
         }
     summary = {
         "backend": classifier.backend,
-        "model": classifier.model if classifier.backend == "remote" else "mock-constant-0",
+        "model": classifier.model if classifier.backend != "mock" else "mock-constant-0",
         "is_mock": classifier.backend == "mock",
         "total": total,
         "correct": correct,

@@ -1,0 +1,30 @@
+/* Keep Korean prose readable while tables and diagrams can use the full column. */
+:root {
+  --md-text-font: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --md-code-font: "D2Coding", "SFMono-Regular", Consolas, monospace;
+}
+
+.md-grid { max-width: 1440px; }
+.md-typeset { font-size: .82rem; line-height: 1.85; word-break: keep-all; overflow-wrap: anywhere; }
+.md-typeset h1 { font-weight: 750; letter-spacing: -.035em; margin-bottom: 1rem; color: var(--md-default-fg-color); }
+.md-typeset h2 { font-weight: 700; letter-spacing: -.025em; margin-top: 2.2rem; padding-bottom: .35rem; border-bottom: 1px solid var(--md-default-fg-color--lightest); }
+.md-typeset h3 { font-weight: 650; }
+.md-typeset p:not(.admonition-title), .md-typeset li { max-width: 78ch; }
+.md-typeset table:not([class]) { font-size: .72rem; line-height: 1.6; }
+.md-typeset table:not([class]) th { background: var(--md-code-bg-color); white-space: nowrap; }
+.md-typeset table:not([class]) tbody tr:nth-child(even) { background: var(--md-default-fg-color--lightest); }
+.md-typeset pre { line-height: 1.6; }
+.md-typeset .diagram-scroll { overflow-x: auto; margin: 1rem 0; }
+.md-typeset .mermaid { overflow-x: auto; padding: 1rem .5rem; border: 1px solid var(--md-default-fg-color--lightest); border-radius: .5rem; background: var(--md-code-bg-color); }
+.md-typeset div.mermaid { text-align: center; }
+.md-typeset .admonition, .md-typeset details { font-size: .75rem; }
+.md-typeset .grid.cards > ul > li { border-radius: .6rem; padding: 1rem; }
+.md-typeset .metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; margin: 1.2rem 0; }
+.md-typeset .metric { padding: .9rem; border: 1px solid var(--md-default-fg-color--lightest); border-radius: .6rem; background: var(--md-code-bg-color); }
+.md-typeset .metric strong { display: block; font-size: 1.7rem; line-height: 1.3; color: var(--md-primary-fg-color); }
+.md-typeset .metric span { font-size: .7rem; }
+@media (max-width: 600px) {
+  .md-typeset { font-size: .8rem; }
+  .md-typeset .diagram-scroll .mermaid { min-width: 640px; }
+  .md-typeset .metric-grid { grid-template-columns: 1fr; gap: .4rem; }
+}

@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import math
 import random
 import sys
 from collections import Counter
@@ -13,13 +14,17 @@ from pose_llm_classifier.data import LABELS, validate_sample, write_json  # noqa
 from pose_llm_classifier.features import extract_features  # noqa: E402
 from pose_llm_classifier.visualization import EDGES, plot_pose  # noqa: E402
 
+GENERATOR_VERSION = 4
+DATASET_VIEW = "side_unmirrored"
+
 
 def generate_samples(per_class=25, seed=42):
     """Vary body proportions, limbs, position and scale while preserving labels.
 
-    Front, unmirrored camera view: anatomical left appears on image right.
-    Seated knees stay under their respective hips with a shorter projected
-    hip-to-knee segment. These are schematic, not measured camera projections.
+    Orthographically project a 3D joint schematic from a near-profile camera
+    (85-88 degrees from frontal). Shoulder/hip pairs nearly overlap in image
+    space; seated thighs extend forward and standing thighs point down.
+    Both image-facing directions are included, with anatomical labels retained.
     """
     if per_class < 1:
         raise ValueError("per_class must be positive")
@@ -29,32 +34,43 @@ def generate_samples(per_class=25, seed=42):
         for index in range(per_class):
             seated, hands_up = label < 2, label % 2 == 1
             raised = ("left", "right", "both")[index % 3] if hands_up else "none"
+            facing_sign = (-1, 1)[(label * per_class + index) % 2]
+            yaw_degrees = facing_sign * rng.uniform(85.0, 88.0)
+            yaw = math.radians(yaw_degrees)
             shoulder_y = rng.uniform(0.27, 0.31)
             hip_y = rng.uniform(0.52, 0.57)
             shoulder_width = rng.uniform(0.15, 0.21)
             hip_width = rng.uniform(0.10, 0.15)
-            lean = rng.uniform(-0.035, 0.035)
-            points = {}
-            knee_spread = rng.uniform(0.005, 0.035)
+            lean_forward = rng.uniform(-0.025, 0.025)
+            thigh_length = rng.uniform(0.18, 0.23)
+            world_points = {}
             for side, sign in (("left", 1), ("right", -1)):
-                sx = 0.5 + lean + sign * shoulder_width / 2
-                sy = shoulder_y + rng.uniform(-0.008, 0.008)
-                hx = 0.5 + sign * hip_width / 2
-                points[f"{side}_shoulder"] = [sx, sy]
-                points[f"{side}_hip"] = [hx, hip_y]
+                # World axes: anatomical lateral, body forward, image-down.
+                lateral_shoulder = sign * shoulder_width / 2
+                lateral_hip = sign * hip_width / 2
+                sy = shoulder_y + rng.uniform(-0.003, 0.003)
+                hy = hip_y + rng.uniform(-0.003, 0.003)
+                world_points[f"{side}_shoulder"] = [lateral_shoulder, lean_forward, sy]
+                world_points[f"{side}_hip"] = [lateral_hip, 0.0, hy]
                 up = raised in (side, "both")
-                points[f"{side}_elbow"] = [
-                    sx + sign * rng.uniform(0.065, 0.11),
-                    sy + rng.uniform(-0.10, -0.055) if up else sy + rng.uniform(0.095, 0.14),
+                world_points[f"{side}_elbow"] = [
+                    lateral_shoulder + sign * rng.uniform(0.015, 0.035),
+                    lean_forward + rng.uniform(0.025, 0.065),
+                    sy + rng.uniform(-0.16, -0.12) if up else sy + rng.uniform(0.12, 0.16),
                 ]
                 if seated:
-                    # Foreshortened thighs, with only a small outward knee spread.
-                    kx = hx + sign * knee_spread + rng.uniform(-0.004, 0.004)
-                    ky = hip_y + rng.uniform(0.045, 0.10)
+                    knee_forward = thigh_length + rng.uniform(-0.008, 0.008)
+                    ky = hip_y + rng.uniform(0.01, 0.03)
                 else:
-                    kx = hx + sign * rng.uniform(0.0, 0.025)
-                    ky = hip_y + rng.uniform(0.15, 0.18)
-                points[f"{side}_knee"] = [kx, ky]
+                    knee_forward = rng.uniform(-0.012, 0.012)
+                    ky = hip_y + thigh_length + rng.uniform(-0.008, 0.008)
+                world_points[f"{side}_knee"] = [
+                    lateral_hip, knee_forward, ky,
+                ]
+            points = {
+                name: [0.5 + math.cos(yaw) * lateral + math.sin(yaw) * forward, down]
+                for name, (lateral, forward, down) in world_points.items()
+            }
             # Uniform scale preserves limb angles and elbow-height relations.
             scale = rng.uniform(0.82, 1.0)
             dx, dy = rng.uniform(-0.055, 0.055), rng.uniform(-0.025, 0.025)
@@ -70,8 +86,10 @@ def generate_samples(per_class=25, seed=42):
                     "id": f"synthetic-{label}-{index:03d}",
                     "synthetic": True,
                     "generator_seed": seed,
-                    "generator_version": 2,
-                    "view": "front_unmirrored",
+                    "generator_version": GENERATOR_VERSION,
+                    "view": DATASET_VIEW,
+                    "facing_direction": "image_left" if facing_sign < 0 else "image_right",
+                    "camera_yaw_degrees": round(yaw_degrees, 4),
                     "coordinate_space": "normalized",
                     "label": label,
                     "raised_arm": raised,
@@ -115,7 +133,7 @@ def plot_overview(samples, output, title, columns=5):
     for ax in list(axes.flat)[len(samples) :]:
         ax.set_visible(False)
     fig.suptitle(
-        title + "\nFront view (unmirrored) | blue: anatomical left, orange: right | y down",
+        title + "\nSide view (3D schematic projection) | blue: anatomical left, orange: right | y down",
         fontsize=13,
     )
     fig.tight_layout(rect=(0, 0, 1, 0.95))
@@ -151,8 +169,8 @@ def main():
         {
             "dataset": str(args.output),
             "seed": args.seed,
-            "generator_version": 2,
-            "view": "front_unmirrored",
+            "generator_version": GENERATOR_VERSION,
+            "view": DATASET_VIEW,
             "total": len(samples),
             "counts": {LABELS[k]: v for k, v in Counter(s["label"] for s in samples).items()},
             "samples": [
@@ -164,7 +182,10 @@ def main():
                 }
                 for sample in samples
             ],
-            "note": "Front-view synthetic illustrations only; not measured poses or a performance benchmark.",
+            "projection": "orthographic",
+            "camera_yaw_absolute_range_degrees": [85, 88],
+            "facing_counts": dict(Counter(s["facing_direction"] for s in samples)),
+            "note": "All poses use a side-view projection of 3D joint schematics. Near/far joints remain in the synthetic input despite potential real-camera occlusion. Not measured poses or a performance benchmark.",
         },
     )
     print(f"Dataset: {args.output}\nImages: {args.output_dir}")

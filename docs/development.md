@@ -49,11 +49,14 @@ GitHub Actions에서 빌드 결과물을 저장하며, Pages 배포는 아래 �
 python scripts/generate_synthetic_dataset.py --per-class 25 --seed 42
 python scripts/visualize_pose.py --input data/sample/pixel.json --show-preprocessed --show-features
 for image in data/sample/synthetic_100/overview_*.png; do
-  cp "$image" "docs/assets/front-v2-$(basename "$image")"
+  cp "$image" "docs/assets/side-v4-$(basename "$image")"
 done
 cp results/visualize_pose/preprocessed_pose.png docs/assets/eight-joint-pose.png
 mkdocs build --strict
 ```
+
+현재 생성기는 측면 v4입니다. `assets/experiments/2026-11-03/`의 v2 실험 스냅샷과
+`front-v2-overview_*.png`는 이전 평가 기록으로 유지하며 새 데이터로 덮어쓰지 않습니다.
 
 [개발 진행 현황](STATUS.md)과 [최초 첨부 요구사항](visualization-requirements.md)은 별도로 보존합니다.
 현재 입력 계약은 [8개 관절 데이터 형식](data-format.md)을 기준으로 합니다.
@@ -76,3 +79,12 @@ main의 문서 변경 시 자동 배포됩니다. 다음은 설정을 재구성�
 문서 주소는 <https://ggh-png.github.io/pose2actionLLM/>입니다.
 자세한 지원 조건은
 [GitHub Pages 공식 안내](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)를 참고하세요.
+
+## 최신 평가 문서 구성
+
+`experiment-results.md`와 `dataset-100.md`는 현재 v4 입력과 결과를 안내합니다.
+이전 v2 결과와 데이터 목록은 `experiment-results-v2.md`, `dataset-v2.md`에 보존합니다.
+실행마다 `docs/assets/experiments/<실행 이름>/`에 입력·예측·지표·메타데이터를 복사해 데이터 버전을 고정합니다.
+
+메뉴는 `mkdocs.yml`, 글꼴·간격·표·작은 화면의 다이어그램 스크롤은 `docs/stylesheets/extra.css`에서 관리합니다.
+긴 표는 `???` 펼침 영역, 이미지 모음과 재현 명령은 탭으로 정리했습니다.
